@@ -40,14 +40,18 @@ CENTINELA is an AI safety validation platform that delivers independent adversar
 **Depends on**: Nothing (first phase)
 **Requirements**: PROV-01, PROV-02, PROV-03, PROV-04, PROV-05, PROV-06, PROV-07, PROV-08, PROV-09, ORCH-01, ORCH-02, ORCH-03, ORCH-04, ORCH-05, ORCH-06, AUDT-01, AUDT-02, AUDT-03, AUDT-04, AUDT-05, AUDT-06, AUDT-07, BUDG-01, BUDG-02, BUDG-03, BUDG-04, BUDG-05, SIDE-01, SIDE-02, SIDE-03
 **Success Criteria** (what must be TRUE):
-  1. User can start a session with OpenAI, Anthropic, or Ollama and provider credentials are held only in RAM
-  2. User can end a session and provider credentials are wiped from memory with no disk persistence
-  3. Every test event is logged with timestamp, actor, payload hash, and prev_hash forming a tamper-evident chain
-  4. User can run 50 API calls or spend $5.00 before session gracefully closes
-  5. User can verify chain integrity using verify_audit.py script that recomputes every hash
-  6. Red and blue agents have zero network access to audit container
-  7. Timing jitter (50-200ms) is added to every response to defeat side-channel inference
-**Plans**: TBD
+   1. User can start a session with OpenAI, Anthropic, or Ollama and provider credentials are held only in RAM
+   2. User can end a session and provider credentials are wiped from memory with no disk persistence
+   3. Every test event is logged with timestamp, actor, payload hash, and prev_hash forming a tamper-evident chain
+   4. User can run 50 API calls or spend $5.00 before session gracefully closes
+   5. User can verify chain integrity using verify_audit.py script that recomputes every hash
+   6. Red and blue agents have zero network access to audit container
+   7. Timing jitter (50-200ms) is added to every response to defeat side-channel inference
+**Plans**: 2 plans
+
+Plans:
+- [ ] 01-foundation-01-PLAN.md — Project skeleton: root pyproject.toml, shared package, 5 service stubs, tool config (ruff, mypy, pytest)
+- [ ] 01-foundation-02-PLAN.md — Quality gates: pre-commit hooks, Dockerfiles, CI pipeline, env template, contributing guide
 
 ### Phase 2: Red-Teaming Engine
 **Goal**: Users can execute adversarial test campaigns against AI models with adaptive attack mutation
