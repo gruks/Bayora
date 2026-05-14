@@ -123,21 +123,22 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ARCH-01 - ARCH-08 | Phase 4 | Pending |
 | PROV-01 - PROV-09 | Phase 1 | Pending |
-| RED-01 - RED-11 | Phase 2 | Pending |
-| BLUE-01 - BLUE-06 | Phase 3 | Pending |
 | ORCH-01 - ORCH-06 | Phase 1 | Pending |
 | AUDT-01 - AUDT-07 | Phase 1 | Pending |
-| CERT-01 - CERT-09 | Phase 4 | Pending |
 | BUDG-01 - BUDG-05 | Phase 1 | Pending |
 | SIDE-01 - SIDE-03 | Phase 1 | Pending |
+| RED-01 - RED-11 | Phase 2 | Pending |
+| BLUE-01 - BLUE-06 | Phase 3 | Pending |
+| ARCH-01 - ARCH-08 | Phase 4 | Pending |
+| CERT-01 - CERT-09 | Phase 4 | Pending |
 
 **Coverage:**
 - v1 requirements: 55 total
 - Mapped to phases: 55
-- Unmapped: 0 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2025-05-14*
-*Last updated: 2025-05-14 after research synthesis*
+*Roadmap created: 2026-05-14*
+*Last updated: 2026-05-14 after roadmap creation*
