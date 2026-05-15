@@ -36,34 +36,40 @@ CENTINELA is an AI safety validation platform that delivers independent adversar
 ## Phase Details
 
 ### Phase 1: Foundation
-**Goal**: Users can run isolated test sessions against multiple AI providers with tamper-evident audit logging and budget controls
+**Goal**: Project skeleton — root workspace, shared package, 5 service stubs, tool config, quality gates, containerization
 **Depends on**: Nothing (first phase)
 **Requirements**: PROV-01, PROV-02, PROV-03, PROV-04, PROV-05, PROV-06, PROV-07, PROV-08, PROV-09, ORCH-01, ORCH-02, ORCH-03, ORCH-04, ORCH-05, ORCH-06, AUDT-01, AUDT-02, AUDT-03, AUDT-04, AUDT-05, AUDT-06, AUDT-07, BUDG-01, BUDG-02, BUDG-03, BUDG-04, BUDG-05, SIDE-01, SIDE-02, SIDE-03
 **Success Criteria** (what must be TRUE):
-   1. User can start a session with OpenAI, Anthropic, or Ollama and provider credentials are held only in RAM
-   2. User can end a session and provider credentials are wiped from memory with no disk persistence
-   3. Every test event is logged with timestamp, actor, payload hash, and prev_hash forming a tamper-evident chain
-   4. User can run 50 API calls or spend $5.00 before session gracefully closes
-   5. User can verify chain integrity using verify_audit.py script that recomputes every hash
-   6. Red and blue agents have zero network access to audit container
-   7. Timing jitter (50-200ms) is added to every response to defeat side-channel inference
+   1. Developer can install all dependencies with `uv sync` — no errors
+   2. `ruff check .`, `ruff format --check .`, `mypy services/ packages/`, `pytest` all pass with zero errors
+   3. 5 service stubs exist and are importable: red-agent, orchestrator, blue-agent, llm-sandbox, audit
+   4. centinela-core shared package exists with pydantic BaseModel types
+   5. Pre-commit hooks run on git commit with ruff and mypy
+   6. GitHub Actions CI pipeline defines lint → type-check → test → build
 **Plans**: 2 plans
 
 Plans:
-- [ ] 01-foundation-01-PLAN.md — Project skeleton: root pyproject.toml, shared package, 5 service stubs, tool config (ruff, mypy, pytest)
-- [ ] 01-foundation-02-PLAN.md — Quality gates: pre-commit hooks, Dockerfiles, CI pipeline, env template, contributing guide
+- [x] 01-foundation-01-PLAN.md — Project skeleton: root pyproject.toml, shared package, 5 service stubs, tool config (ruff, mypy, pytest)
+- [x] 01-foundation-02-PLAN.md — Quality gates: pre-commit hooks, Dockerfiles, CI pipeline, env template, contributing guide
 
-### Phase 2: Red-Teaming Engine
-**Goal**: Users can execute adversarial test campaigns against AI models with adaptive attack mutation
+### Phase 2: Universal Provider Adapter
+**Goal**: Developers can call any LLM provider (OpenAI, Anthropic, Ollama, custom) through a unified adapter interface with identical response schemas, RAM-only API key storage, and automatic rate-limit retry
 **Depends on**: Phase 1
-**Requirements**: RED-01, RED-02, RED-03, RED-04, RED-05, RED-06, RED-07, RED-08, RED-09, RED-10, RED-11
+**Requirements**: PROV-01, PROV-02, PROV-03, PROV-04, PROV-05, PROV-06, PROV-07, PROV-08, PROV-09, RED-01 (lite), RED-02 (lite)
 **Success Criteria** (what must be TRUE):
-  1. User can fire adversarial prompts from AdvBench and JailbreakBench datasets against target model
-  2. User can execute multi-turn attack conversations with context carry-over across turns
-  3. User can load domain-specific attack profiles (Healthcare, Finance, Legal, General) from JSONL files with severity ratings
-  4. When an attack is blocked, red-agent mutates the prompt using roleplay, academic, hypothetical, or indirect framing and retries
-  5. Mutation lineage is logged to audit chain showing every iteration attempt and its result
-**Plans**: TBD
+   1. All 4 adapters return identical NormalizedResponse schema (identical field names and types)
+   2. Rate limit retry succeeds up to 3 attempts with exponential backoff
+   3. API key memory is zeroed after session end (verified with byte-level memory inspection test)
+   4. Token counting works for all providers via litellm.token_counter()
+   5. Custom endpoint adapter works with any OpenAI-compatible API (configurable api_base)
+   6. Provider instantiation completes in <500ms
+   7. All tests pass without real API keys (LiteLLM is mocked)
+**Plans**: 3 plans
+
+Plans:
+- [ ] 02-red-teaming-engine-01-PLAN.md — Core LLM infrastructure: types, ABC, SecureKeyStore, ProviderFactory
+- [ ] 02-red-teaming-engine-02-PLAN.md — All 4 adapters: OpenAI, Anthropic, Ollama, CustomEndpoint
+- [ ] 02-red-teaming-engine-03-PLAN.md — Comprehensive test suite: unit tests, schema verification, benchmark
 
 ### Phase 3: Evaluation Engine
 **Goal**: Users can classify model outputs as safe or harmful with quantitative scoring across 50+ metrics
@@ -93,8 +99,8 @@ Plans:
 
 | Phase | Requirements | Status | Completed |
 |-------|--------------|--------|-----------|
-| 1. Foundation | 30 | Not started | - |
-| 2. Red-Teaming Engine | 11 | Not started | - |
+| 1. Foundation | 30 | Planned (2 plans) | - |
+| 2. Universal Provider Adapter | 9 | Planned (3 plans) | - |
 | 3. Evaluation Engine | 6 | Not started | - |
 | 4. Container Integration + Certificates | 17 | Not started | - |
 | 5. Project Setup & Core Infrastructure | 0 | Not started | - |
