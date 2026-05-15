@@ -91,17 +91,17 @@ Based on research, suggested phase structure:
 ### Phase 1: Foundation (Sandbox + Audit + Orchestrator Core)
 **Rationale:** This is the foundation all other components depend on. LLM Sandbox must exist before any agent can execute safely. Audit system must observe from day one. Orchestrator coordinates everything.
 
-**Delivers:** 
+**Delivers:**
 - LLM Sandbox with Docker container isolation (network=none, memory limits, no-new-privileges)
 - Basic audit trail with logging infrastructure
 - Orchestrator with campaign management API
 - Core multi-provider support (OpenAI, Anthropic, Ollama)
 
-**Addresses:** 
+**Addresses:**
 - Basic Audit Trail (P1), Multi-Provider Support (P1), Evaluation/Scoring (P1)
 - Compliance Framework Mapping begins here
 
-**Avoids:** 
+**Avoids:**
 - Pitfall 10: Incomplete audit trail — implement full capture chain from start
 - Pitfall 9: No third-party path — design for auditor access from day one
 - Pitfall 7: Proxy metric disconnect — build real-world scenario validation

@@ -1,0 +1,37 @@
+services:
+  red-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.red-agent
+    ports: []
+    networks: []
+
+  orchestrator:
+    build:
+      context: .
+      dockerfile: Dockerfile.orchestrator
+    ports: ["8080:8080"]
+    networks: []
+
+  blue-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.blue-agent
+    ports: []
+    networks: []
+
+  llm-sandbox:
+    build:
+      context: .
+      dockerfile: Dockerfile.llm-sandbox
+    ports: []
+    networks: []
+
+  audit:
+    build:
+      context: .
+      dockerfile: Dockerfile.audit
+    ports: []
+    networks: []
+
+networks: {}

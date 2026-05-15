@@ -16,7 +16,7 @@ Mistakes that cause rewrites, failed validations, or security breaches.
 
 **Why it happens:** Single-turn tests are easier to implement, faster to run, and map directly to benchmark formats. Multi-turn testing requires conversation state management, memory tracking, and contextual escalation logic that most platforms lack.
 
-**How to avoid:** 
+**How to avoid:**
 - Implement explicit multi-turn attack chains (3+ turns minimum)
 - Test conversation context carry-over — can earlier harmless messages prime later harmful requests?
 - Build "attack escalation" scenarios where each turn increases pressure

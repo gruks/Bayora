@@ -213,7 +213,7 @@ def verify_chain(entries: list[dict]) -> bool:
 class UniversalProviderAdapter:
     def __init__(self, provider: str, config: dict):
         self.client = self._create_client(provider, config)
-    
+
     def _create_client(self, provider: str, config: dict):
         adapters = {
             "openai": OpenAIClient,
@@ -222,11 +222,11 @@ class UniversalProviderAdapter:
             "local": LocalClient
         }
         return adapters[provider](config)
-    
+
     def generate(self, prompt: str, **kwargs) -> Response:
         # Normalized response format across all providers
         return self.client.complete(prompt, **kwargs)
-    
+
     def get_token_count(self, text: str) -> int:
         return self.client.count_tokens(text)
 ```
