@@ -56,8 +56,7 @@ class UniversalProviderAdapter(ABC):
         Yields:
             NormalizedChunk for each streaming delta.
         """
-        ...
-        yield  # pragma: no cover — marker for async generator
+        raise NotImplementedError
 
     @abstractmethod
     def count_tokens(self, messages: list[dict[str, object]]) -> int:
