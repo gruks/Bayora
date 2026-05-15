@@ -1,0 +1,15 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "blue-agent"
+version = "0.1.0"
+description = "Blue agent service — safety evaluation and response classification"
+requires-python = ">=3.12"
+dependencies = [
+    "centinela-core",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/blue_agent"]

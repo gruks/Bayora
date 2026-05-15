@@ -1,0 +1,15 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "llm-sandbox"
+version = "0.1.0"
+description = "LLM sandbox service — isolated model interaction and output sanitization"
+requires-python = ">=3.12"
+dependencies = [
+    "centinela-core",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/llm_sandbox"]

@@ -51,6 +51,7 @@ quote-style = "double"
 [tool.mypy]
 python_version = "3.12"
 strict = true
+exclude = "tests/"
 
 [[tool.mypy.overrides]]
 module = ["openai.*", "anthropic.*"]
