@@ -2,36 +2,36 @@
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-05-14)
+See: .planning/PROJECT.md (updated 2026-05-15)
 
 **Core value:** Enable regulated companies to obtain independent, forensically defensible AI safety audits with signed certificates that satisfy compliance frameworks (HIPAA, SOX, GDPR, EU AI Act).
 **Current focus:** Phase 1 — Foundation
 
 ## Current Position
 
-Phase: 2 of 25 (4 original + 21 Bayora phases) — Universal Provider Adapter
-Plan: 3 plans ready for execution
-Status: Ready to execute (02-red-teaming-engine-01-PLAN.md -> 02 -> 03)
-Last activity: 2026-05-15 — Phase 2 plans completed (Universal Provider Adapter)
+Phase: 1 of 25 — Foundation
+Plan: 2/2 complete
+Status: Phase 1 executed — Python monorepo foundation established
+Last activity: 2026-05-15 — Phase 1 execution complete (2 plans, 2 waves, 6 tasks)
 
-Progress: [████░░░░░░] 8% (8% planned: Phase 1 2 plans + Phase 2 3 plans of 25 phases total)
+Progress: [████░░░░░░] 4% (Phase 1 complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 0
-- Average duration: -
-- Total execution time: 0.0 hours
+- Total plans completed: 2
+- Average duration: ~37 min/plan
+- Total execution time: ~1.25 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| - | - | - | - |
+| 1     | 2/2   | 2     | ~37 min   |
 
 **Recent Trend:**
-- Last 5 plans: No plans executed yet
-- Trend: N/A
+- Last 2 plans: Phase 1 foundation executed
+- Trend: N/A (first phase)
 
 *Updated after each plan completion*
 
@@ -42,12 +42,16 @@ Progress: [████░░░░░░] 8% (8% planned: Phase 1 2 plans + Pha
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
+- **Phase 1 (unittest -> pytest)**: Test discovery works best without `__init__.py` in test directories. Named test files per service (`test_audit.py`, `test_red_agent.py`) to avoid import conflicts.
+- **Phase 1 (mypy)**: Added `exclude = "tests/"` in mypy config to prevent duplicate module errors across service test directories.
+- **Phase 1 (uv sync)**: Use `uv sync --all-packages --all-extras` to install workspace members and dev dependencies together.
 - Phase 4: Five-container model with gVisor runtime, Merkle-chained audit, Ed25519 signing — research validated these as key differentiators
 - Phase 1: Budget guard and side-channel mitigations in foundation (needed by orchestrator core)
 - Phase 3: Blue-agent isolation from red-agent enforced — orchestrator strips prompts before forwarding
 
 ### Roadmap Evolution
 
+- Phase 1 complete: Python monorepo with root pyproject.toml, centinela-core shared package, 5 service stubs, ruff/mypy/pytest tooling, pre-commit, Dockerfiles, CI pipeline, docs
 - Phase 5 added: Project Setup and Core Infrastructure (from Bayora)
 - Phase 6 added: Dataset Management (from Bayora)
 - Phase 7 added: Configuration Parser and Validator (from Bayora)
@@ -81,6 +85,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-14
-Stopped at: Roadmap created, ready to begin planning Phase 1
+Last session: 2026-05-15
+Stopped at: Phase 1 execution complete — 2/2 plans executed
 Resume file: None
