@@ -1,0 +1,63 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "centinela"
+version = "0.1.0"
+description = "AI safety validation platform"
+requires-python = ">=3.12"
+dependencies = [
+    "httpx>=0.28",
+    "pydantic>=2.0",
+    "python-dotenv>=1.0",
+    "cryptography>=43.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=9.0",
+    "pytest-cov>=7.0",
+    "pytest-xdist>=3.8",
+    "ruff>=0.15",
+    "mypy>=2.0",
+    "pre-commit>=4.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["."]
+
+[tool.uv.workspace]
+members = ["packages/*", "services/*"]
+
+[tool.uv.sources]
+centinela-core = { workspace = true }
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "N", "UP", "B", "C4", "SIM", "TCH", "RUF"]
+ignore = ["E501", "ISC001"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["S101"]
+"__init__.py" = ["F401"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+
+[[tool.mypy.overrides]]
+module = ["openai.*", "anthropic.*"]
+ignore_missing_imports = true
+
+[tool.pytest.ini_options]
+minversion = "9.0"
+addopts = "--strict-markers --strict-config --cov= --cov-report=term-missing -n auto"
+testpaths = ["tests"]
+xfail_strict = true
