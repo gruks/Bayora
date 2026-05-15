@@ -6,7 +6,7 @@ CENTINELA is an AI safety validation platform that delivers independent adversar
 
 ## Phases
 
-- [ ] **Phase 1: Foundation** - Provider adapter, orchestrator core, audit system, side-channel mitigations, budget guard
+- [x] **Phase 1: Foundation** - Python monorepo skeleton, tooling, Docker, CI
 - [ ] **Phase 2: Red-Teaming Engine** - Red-agent with adversarial attack datasets, adaptive mutation, domain-specific profiles
 - [ ] **Phase 3: Evaluation Engine** - Blue-agent with safety classifiers, multi-seed evaluation, scoring metrics
 - [ ] **Phase 4: Container Integration + Certificates** - Five-container deployment, Merkle audit chain, signed PDF certificates
@@ -99,7 +99,7 @@ Plans:
 
 | Phase | Requirements | Status | Completed |
 |-------|--------------|--------|-----------|
-| 1. Foundation | 30 | Planned (2 plans) | - |
+| 1. Foundation | 30 | ✓ Executed | 2026-05-15 |
 | 2. Universal Provider Adapter | 9 | Planned (3 plans) | - |
 | 3. Evaluation Engine | 6 | Not started | - |
 | 4. Container Integration + Certificates | 17 | Not started | - |
