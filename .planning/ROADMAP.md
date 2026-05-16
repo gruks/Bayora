@@ -79,8 +79,13 @@ Plans:
   1. User can classify model outputs as safe or harmful using HH-RLHF and ToxiGen trained classifiers
   2. Blue-agent receives only the model response — never the original adversarial prompt (enforced isolation)
   3. User can run evaluations across multiple seeds and receive confidence intervals
-  4. User can obtain safety scores across 50+ core metrics with breakdown by category
-**Plans**: TBD
+   4. User can obtain safety scores across 50+ core metrics with breakdown by category
+**Plans**: 3 plans
+
+Plans:
+- [ ] 03-evaluation-engine-01-PLAN.md — Classifier foundation: types, interface, HH-RLHF classifier, isolation layer
+- [ ] 03-evaluation-engine-02-PLAN.md — ToxiGen classifier + ensemble with agreement scoring
+- [ ] 03-evaluation-engine-03-PLAN.md — 50+ metrics + multi-seed evaluation with BCa bootstrap CIs
 
 ### Phase 4: Container Integration + Certificates
 **Goal**: Users can deploy the complete five-container architecture with forensically auditable signed certificates
