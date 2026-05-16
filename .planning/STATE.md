@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-05-15)
 ## Current Position
 
 Phase: 3 of 25 — evaluation-engine
-Plan: 1/4 complete
-Status: Plan 01 executed — classifier foundation (types, interface, isolation, HH-RLHF classifier)
-Last activity: 2026-05-16 — Phase 3 Plan 01 complete (2 tasks, 15 tests)
+Plan: 2/4 complete
+Status: Plan 02 executed — ToxiGen classifier + ensemble classifier
+Last activity: 2026-05-16 — Phase 3 Plan 02 complete (2 tasks, 15 tests total)
 
-Progress: [████░░░░░░] 4% (Phase 1 complete, Phase 2 complete, Phase 3 in progress)
+Progress: [█████░░░░░] 5% (Phase 1 complete, Phase 2 complete, Phase 3 in progress)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
-- Average duration: ~28 min/plan
-- Total execution time: ~1.5 hours
+- Total plans completed: 4
+- Average duration: ~34 min/plan
+- Total execution time: ~2.5 hours
 
 **By Phase:**
 
@@ -29,10 +29,10 @@ Progress: [████░░░░░░] 4% (Phase 1 complete, Phase 2 complet
 |-------|-------|-------|----------|
 | 1     | 2/2   | 2     | ~37 min   |
 | 2     | 3/3   | 3     | ~23 min   |
-| 3     | 1/4   | 1     | ~25 min   |
+| 3     | 2/4   | 2     | ~39 min   |
 
 **Recent Trend:**
-- Last 3 plans: Phase 2 Plan 02, Phase 3 Plan 01
+- Last 3 plans: Phase 3 Plan 01, Phase 3 Plan 02
 - Trend: Phase 3 evaluation engine execution underway
 
 *Updated after each plan completion*
@@ -56,12 +56,15 @@ Recent decisions affecting current work:
 - **Phase 3 (models package)**: Converted models.py to models/ package directory for better organization; existing types moved to base.py
 - **Phase 3 (py.typed)**: Added py.typed marker to centinela-core for mypy workspace type checking support
 - **Phase 3 (BLUE-04)**: Safety classifier interface enforces prompt isolation at type level — no method accepts prompt parameter
+- **Phase 3 (ToxiGen labels)**: ToxiGen LABEL_0=safe, LABEL_1=harm — opposite of HH-RLHF mapping (LABEL_0=harm, LABEL_1=safe)
+- **Phase 3 (Ensemble)**: Disagreement between classifiers yields conservative "harm" label with reduced confidence (min * 0.8)
 
 ### Roadmap Evolution
 
 - Phase 1 complete: Python monorepo with root pyproject.toml, centinela-core shared package, 5 service stubs, ruff/mypy/pytest tooling, pre-commit, Dockerfiles, CI pipeline, docs
 - Phase 2 complete: Red-teaming engine with 4 provider adapters (OpenAI, Anthropic, Ollama, CustomEndpoint)
 - Phase 3 Plan 01 complete: Classifier foundation — frozen pydantic types, SafetyClassifier interface, HH-RLHF classifier, isolation layer
+- Phase 3 Plan 02 complete: ToxiGen classifier + ensemble classifier with agreement scoring
 - Phase 5 added: Project Setup and Core Infrastructure (from Bayora)
 - Phase 6 added: Dataset Management (from Bayora)
 - Phase 7 added: Configuration Parser and Validator (from Bayora)
@@ -96,5 +99,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-05-16
-Stopped at: Phase 3 Plan 01 execution complete — classifier foundation (2 tasks, 15 tests)
+Stopped at: Phase 3 Plan 02 execution complete — ToxiGen + ensemble classifiers (2 tasks, 15 tests)
 Resume file: None
