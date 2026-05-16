@@ -3,7 +3,7 @@
 Wraps LLM-Guard output scanners that detect privacy leaks in model responses.
 """
 
-from llm_guard.output_scanners import Deanonymize, Regex, Sensitive
+from llm_guard.output_scanners import Deanonymize, Regex, Sensitive  # type: ignore[import-untyped]
 
 from blue_agent.metrics.base import LLMGuardScorer
 

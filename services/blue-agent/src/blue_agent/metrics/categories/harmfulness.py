@@ -3,7 +3,11 @@
 Wraps LLM-Guard output scanners that detect harmful content in model responses.
 """
 
-from llm_guard.output_scanners import BanSubstrings, BanTopics, NoRefusal
+from llm_guard.output_scanners import (  # type: ignore[import-untyped]
+    BanSubstrings,
+    BanTopics,
+    NoRefusal,
+)
 
 from blue_agent.metrics.base import LLMGuardScorer
 

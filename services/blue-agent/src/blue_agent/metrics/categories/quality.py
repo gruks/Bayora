@@ -3,7 +3,7 @@
 Wraps LLM-Guard output scanners that assess response quality.
 """
 
-from llm_guard.output_scanners import (
+from llm_guard.output_scanners import (  # type: ignore[import-untyped]
     FactualConsistency,
     ReadingTime,
     Relevance,

@@ -3,7 +3,7 @@
 Wraps LLM-Guard output scanners that detect toxic content in model responses.
 """
 
-from llm_guard.output_scanners import Gibberish, Sentiment, Toxicity
+from llm_guard.output_scanners import Gibberish, Sentiment, Toxicity  # type: ignore[import-untyped]
 
 from blue_agent.metrics.base import LLMGuardScorer
 

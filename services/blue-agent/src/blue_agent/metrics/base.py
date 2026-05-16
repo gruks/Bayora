@@ -6,16 +6,16 @@ prompt is never accessible to the blue-agent metric scoring system.
 """
 
 from abc import ABC, abstractmethod
+from typing import Any
 
 from centinela.models.evaluation import MetricScore
-from llm_guard import output_scanners
 
 
 class MetricScorer(ABC):
     """Abstract base class for safety metric scorers.
 
     Each scorer evaluates a single safety metric and returns a MetricScore
-    with a numeric score (0.0–1.0) and a pass/fail judgment against its threshold.
+    with a numeric score (0.0-1.0) and a pass/fail judgment against its threshold.
 
     The interface accepts ONLY response_text — no prompt parameter.
     """
@@ -49,7 +49,7 @@ class LLMGuardScorer(MetricScorer):
         self,
         name: str,
         category: str,
-        scanner,
+        scanner: Any,
         threshold: float = 0.5,
     ) -> None:
         """Initialize with an LLM-Guard scanner instance.
@@ -81,11 +81,11 @@ class LLMGuardScorer(MetricScorer):
         params = list(sig.parameters.keys())
 
         if "prompt" in params or len(params) >= 3:
-            # Scanner requires prompt — pass empty string (BLUE-04)
-            sanitized, is_valid, risk_score = self._scanner.scan("", response_text)
+            # Scanner requires prompt -- pass empty string (BLUE-04)
+            _, is_valid, risk_score = self._scanner.scan("", response_text)
         else:
             # Output-only scanner
-            sanitized, is_valid, risk_score = self._scanner.scan(response_text)
+            _, is_valid, risk_score = self._scanner.scan(response_text)
 
         return MetricScore(
             name=self.name,
