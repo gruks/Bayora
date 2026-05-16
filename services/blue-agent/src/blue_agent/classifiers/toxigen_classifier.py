@@ -1,7 +1,7 @@
-"""HH-RLHF trained DistilBERT safety classifier.
+"""ToxiGen trained DistilBERT classifier for implicit toxicity detection.
 
-Fine-tuned on Anthropic's HH-RLHF harmless-base dataset to classify
-model responses as safe or harmful.
+Fine-tuned on the ToxiGen dataset to detect implicit toxicity in model
+responses that may appear superficially safe but contain subtly harmful content.
 """
 
 from typing import Literal
@@ -13,19 +13,20 @@ from blue_agent.classifiers.base import SafetyClassifier
 
 # Mapping from pipeline output labels to our classification labels
 _LABEL_MAP: dict[str, Literal["safe", "harm"]] = {
-    "LABEL_0": "harm",
-    "LABEL_1": "safe",
+    "LABEL_0": "safe",
+    "LABEL_1": "harm",
 }
 
 
-class HHRLHFClassifier(SafetyClassifier):
-    """Safety classifier trained on HH-RLHF harmless-base dataset.
+class ToxiGenClassifier(SafetyClassifier):
+    """Safety classifier trained on the ToxiGen dataset.
 
-    Uses a fine-tuned DistilBERT model for text classification.
+    Uses a fine-tuned DistilBERT model for detecting implicit toxicity
+    that may not be caught by general harmlessness classifiers.
     """
 
     def __init__(self, model_path: str, device: str = "cpu") -> None:
-        """Initialize the HH-RLHF classifier.
+        """Initialize the ToxiGen classifier.
 
         Args:
             model_path: Path to the fine-tuned model directory.
@@ -42,16 +43,16 @@ class HHRLHFClassifier(SafetyClassifier):
                 device=device,
             )
         except Exception as e:
-            raise ValueError(f"Failed to load HH-RLHF classifier from '{model_path}': {e}") from e
+            raise ValueError(f"Failed to load ToxiGen classifier from '{model_path}': {e}") from e
 
     def classify(self, response_text: str) -> ClassificationResult:
-        """Classify a model response as safe or harmful.
+        """Classify a model response for implicit toxicity.
 
         Args:
             response_text: The model's response text to classify.
 
         Returns:
-            ClassificationResult with label, confidence, and model_source="hh_rlhf".
+            ClassificationResult with label, confidence, and model_source="toxigen".
         """
         result = self._pipeline(response_text)[0]
         label = _LABEL_MAP.get(result["label"], "harm")
@@ -60,5 +61,5 @@ class HHRLHFClassifier(SafetyClassifier):
         return ClassificationResult(
             label=label,
             confidence=confidence,
-            model_source="hh_rlhf",
+            model_source="toxigen",
         )
