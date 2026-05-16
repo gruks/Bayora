@@ -107,7 +107,7 @@ Plans:
 | 6. Dataset Management | 0 | Not started | - |
 | 7. Configuration Parser & Validator | 0 | Not started | - |
 | 8. Secrets Manager | 0 | Not started | - |
-| 9. Audit Log Service | 0 | Not started | - |
+| 9. Audit Log Service | 7 | Planned (3 plans) | - |
 | 10. Provenance Tracker | 0 | Not started | - |
 | 11. Checkpoint - Core Services | 0 | Not started | - |
 | 12. Anomaly Detector | 0 | Not started | - |
@@ -205,10 +205,12 @@ Plans:
 
 **Goal:** Tamper-evident cryptographic logging — SHA-256 hash chaining, Ed25519 batch signing every 60s, tamper detection with 5s alert SLA, append-only storage, geo-replication to 2+ regions within 10s
 **Depends on:** Phase 8
-**Plans:** 0 plans
+**Plans:** 3 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 9 to break down)
+- [ ] 09-audit-log-service-01-PLAN.md — Core audit log: schema, SHA-256 Merkle chain, append-only storage (PostgreSQL/SQLite), non-blocking async writer
+- [ ] 09-audit-log-service-02-PLAN.md — Verification CLI: verify_audit.py script, chain integrity verification, correlation ID queries, performance (<1s for 10K entries)
+- [ ] 09-audit-log-service-03-PLAN.md — Query API + RBAC: FastAPI read-only endpoints, role-based access control (admin/auditor/orchestrator)
 
 ### Phase 10: Provenance Tracker
 
