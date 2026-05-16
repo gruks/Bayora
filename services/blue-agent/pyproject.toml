@@ -9,6 +9,10 @@ description = "Blue agent service — safety evaluation and response classificat
 requires-python = ">=3.12"
 dependencies = [
     "centinela-core",
+    "transformers>=4.51",
+    "torch>=2.4",
+    "scikit-learn>=1.5",
+    "structlog>=24",
 ]
 
 [tool.hatch.build.targets.wheel]
