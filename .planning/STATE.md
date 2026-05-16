@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-05-15)
 ## Current Position
 
 Phase: 3 of 25 — evaluation-engine
-Plan: 2/4 complete
-Status: Plan 02 executed — ToxiGen classifier + ensemble classifier
-Last activity: 2026-05-16 — Phase 3 Plan 02 complete (2 tasks, 15 tests total)
+Plan: 3/4 complete
+Status: Plan 03 executed — metric scoring infrastructure (MetricScorer, MetricRegistry, 6 categories)
+Last activity: 2026-05-16 — Phase 3 Plan 03 complete (2 tasks, 12 tests)
 
 Progress: [█████░░░░░] 5% (Phase 1 complete, Phase 2 complete, Phase 3 in progress)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: ~34 min/plan
-- Total execution time: ~2.5 hours
+- Total plans completed: 5
+- Average duration: ~35 min/plan
+- Total execution time: ~3 hours
 
 **By Phase:**
 
@@ -29,10 +29,10 @@ Progress: [█████░░░░░] 5% (Phase 1 complete, Phase 2 complet
 |-------|-------|-------|----------|
 | 1     | 2/2   | 2     | ~37 min   |
 | 2     | 3/3   | 3     | ~23 min   |
-| 3     | 2/4   | 2     | ~39 min   |
+| 3     | 3/4   | 3     | ~36 min   |
 
 **Recent Trend:**
-- Last 3 plans: Phase 3 Plan 01, Phase 3 Plan 02
+- Last 3 plans: Phase 3 Plan 01, Phase 3 Plan 02, Phase 3 Plan 03
 - Trend: Phase 3 evaluation engine execution underway
 
 *Updated after each plan completion*
@@ -58,6 +58,8 @@ Recent decisions affecting current work:
 - **Phase 3 (BLUE-04)**: Safety classifier interface enforces prompt isolation at type level — no method accepts prompt parameter
 - **Phase 3 (ToxiGen labels)**: ToxiGen LABEL_0=safe, LABEL_1=harm — opposite of HH-RLHF mapping (LABEL_0=harm, LABEL_1=safe)
 - **Phase 3 (Ensemble)**: Disagreement between classifiers yields conservative "harm" label with reduced confidence (min * 0.8)
+- **Phase 3 (Metric lazy loading)**: LLM-Guard scanners download models on import — implemented lazy loading via __getattr__ to avoid model downloads during tests
+- **Phase 3 (Metric scanner adaptation)**: Plan specified 34 llm-guard scanners but many don't exist — adapted to use 17 actual available output scanners
 
 ### Roadmap Evolution
 
@@ -65,6 +67,7 @@ Recent decisions affecting current work:
 - Phase 2 complete: Red-teaming engine with 4 provider adapters (OpenAI, Anthropic, Ollama, CustomEndpoint)
 - Phase 3 Plan 01 complete: Classifier foundation — frozen pydantic types, SafetyClassifier interface, HH-RLHF classifier, isolation layer
 - Phase 3 Plan 02 complete: ToxiGen classifier + ensemble classifier with agreement scoring
+- Phase 3 Plan 03 complete: Metric scoring infrastructure — MetricScorer ABC, 6 category files, MetricRegistry with 17 derived metrics
 - Phase 5 added: Project Setup and Core Infrastructure (from Bayora)
 - Phase 6 added: Dataset Management (from Bayora)
 - Phase 7 added: Configuration Parser and Validator (from Bayora)
@@ -99,5 +102,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-05-16
-Stopped at: Phase 3 Plan 02 execution complete — ToxiGen + ensemble classifiers (2 tasks, 15 tests)
+Stopped at: Phase 3 Plan 03 execution complete — metric scoring infrastructure (2 tasks, 12 tests)
 Resume file: None
