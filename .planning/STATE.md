@@ -10,9 +10,9 @@ See: .planning/PROJECT.md (updated 2026-05-15)
 ## Current Position
 
 Phase: 3 of 25 — evaluation-engine
-Plan: 3/4 complete
-Status: Plan 03 executed — metric scoring infrastructure (MetricScorer, MetricRegistry, 6 categories)
-Last activity: 2026-05-16 — Phase 3 Plan 03 complete (2 tasks, 12 tests)
+Plan: 4/4 complete
+Status: Plan 04 executed — multi-seed evaluation with BCa bootstrap CIs and classifier-derived metrics
+Last activity: 2026-05-17 — Phase 3 Plan 04 complete (2 tasks, 25 tests)
 
 Progress: [█████░░░░░] 5% (Phase 1 complete, Phase 2 complete, Phase 3 in progress)
 
@@ -29,11 +29,11 @@ Progress: [█████░░░░░] 5% (Phase 1 complete, Phase 2 complet
 |-------|-------|-------|----------|
 | 1     | 2/2   | 2     | ~37 min   |
 | 2     | 3/3   | 3     | ~23 min   |
-| 3     | 3/4   | 3     | ~36 min   |
+| 3     | 4/4   | 4     | ~29 min   |
 
 **Recent Trend:**
-- Last 3 plans: Phase 3 Plan 01, Phase 3 Plan 02, Phase 3 Plan 03
-- Trend: Phase 3 evaluation engine execution underway
+- Last 3 plans: Phase 3 Plan 02, Phase 3 Plan 03, Phase 3 Plan 04
+- Trend: Phase 3 evaluation engine execution complete
 
 *Updated after each plan completion*
 
@@ -68,6 +68,7 @@ Recent decisions affecting current work:
 - Phase 3 Plan 01 complete: Classifier foundation — frozen pydantic types, SafetyClassifier interface, HH-RLHF classifier, isolation layer
 - Phase 3 Plan 02 complete: ToxiGen classifier + ensemble classifier with agreement scoring
 - Phase 3 Plan 03 complete: Metric scoring infrastructure — MetricScorer ABC, 6 category files, MetricRegistry with 17 derived metrics
+- Phase 3 Plan 04 complete: Multi-seed evaluation engine with BCa bootstrap CIs, classifier-derived metrics, MetricRegistry integration
 - Phase 5 added: Project Setup and Core Infrastructure (from Bayora)
 - Phase 6 added: Dataset Management (from Bayora)
 - Phase 7 added: Configuration Parser and Validator (from Bayora)
@@ -101,6 +102,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-16
-Stopped at: Phase 3 Plan 03 execution complete — metric scoring infrastructure (2 tasks, 12 tests)
+Last session: 2026-05-17
+Stopped at: Phase 3 Plan 04 execution complete — multi-seed evaluation with BCa bootstrap CIs (2 tasks, 25 tests)
 Resume file: None

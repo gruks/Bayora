@@ -8,7 +8,7 @@ CENTINELA is an AI safety validation platform that delivers independent adversar
 
 - [x] **Phase 1: Foundation** - Python monorepo skeleton, tooling, Docker, CI
 - [ ] **Phase 2: Red-Teaming Engine** - Red-agent with adversarial attack datasets, adaptive mutation, domain-specific profiles
-- [ ] **Phase 3: Evaluation Engine** - Blue-agent with safety classifiers, multi-seed evaluation, scoring metrics
+- [x] **Phase 3: Evaluation Engine** - Blue-agent with safety classifiers, multi-seed evaluation, scoring metrics
 - [ ] **Phase 4: Container Integration + Certificates** - Five-container deployment, Merkle audit chain, signed PDF certificates
 - [ ] **Phase 5: Project Setup & Core Infrastructure** - Python package structure, core data models, testing framework
 - [ ] **Phase 6: Dataset Management** - Adversarial testing datasets for red/blue team operations
@@ -71,7 +71,7 @@ Plans:
 - [ ] 02-red-teaming-engine-02-PLAN.md — All 4 adapters: OpenAI, Anthropic, Ollama, CustomEndpoint
 - [ ] 02-red-teaming-engine-03-PLAN.md — Comprehensive test suite: unit tests, schema verification, benchmark
 
-### Phase 3: Evaluation Engine
+### Phase 3: Evaluation Engine `✓`
 **Goal**: Users can classify model outputs as safe or harmful with quantitative scoring across 50+ metrics
 **Depends on**: Phase 1
 **Requirements**: BLUE-01, BLUE-02, BLUE-03, BLUE-04, BLUE-05, BLUE-06
@@ -79,13 +79,14 @@ Plans:
   1. User can classify model outputs as safe or harmful using HH-RLHF and ToxiGen trained classifiers
   2. Blue-agent receives only the model response — never the original adversarial prompt (enforced isolation)
   3. User can run evaluations across multiple seeds and receive confidence intervals
-   4. User can obtain safety scores across 50+ core metrics with breakdown by category
-**Plans**: 3 plans
+  4. User can obtain safety scores across 50+ core metrics with breakdown by category
+**Plans**: 4 plans
 
 Plans:
-- [ ] 03-evaluation-engine-01-PLAN.md — Classifier foundation: types, interface, HH-RLHF classifier, isolation layer
-- [ ] 03-evaluation-engine-02-PLAN.md — ToxiGen classifier + ensemble with agreement scoring
-- [ ] 03-evaluation-engine-03-PLAN.md — 50+ metrics + multi-seed evaluation with BCa bootstrap CIs
+- [x] 03-evaluation-engine-01-PLAN.md — Classifier foundation: types, interface, HH-RLHF classifier, isolation layer
+- [x] 03-evaluation-engine-02-PLAN.md — ToxiGen classifier + ensemble with agreement scoring
+- [x] 03-evaluation-engine-03-PLAN.md — Metric scoring infrastructure: MetricScorer ABC, 6 categories, MetricRegistry with 17 derived metrics
+- [x] 03-evaluation-engine-04-PLAN.md — Multi-seed evaluation engine: BCa bootstrap CIs, classifier-derived metrics, MetricRegistry integration
 
 ### Phase 4: Container Integration + Certificates
 **Goal**: Users can deploy the complete five-container architecture with forensically auditable signed certificates
@@ -98,7 +99,13 @@ Plans:
   4. Audit chain verification confirms cryptographic integrity across all logged events
   5. User receives signed PDF safety certificate including model info, test date, session ID, vulnerability counts, mutation rounds, Merkle root hash, and Ed25519 signature
   6. Recipient can verify certificate integrity using the included verification command
-**Plans**: TBD
+**Plans**: 4 plans
+
+Plans:
+- [ ] 04-container-integration-certificates-01-PLAN.md — Docker Compose with five-container deployment and network isolation
+- [ ] 04-container-integration-certificates-02-PLAN.md — gVisor runtime configuration for LLM sandbox
+- [ ] 04-container-integration-certificates-03-PLAN.md — Merkle-chained audit log with cryptographic verification
+- [ ] 04-container-integration-certificates-04-PLAN.md — Ed25519 signed PDF certificate generation with verification
 
 ## Progress
 
