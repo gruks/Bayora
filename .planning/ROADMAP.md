@@ -181,10 +181,15 @@ Plans:
 
 **Goal:** Foundation for the entire platform — Python package structure with 8 core modules (orchestrator, config, secrets, audit, provenance, anomaly, network, resources), dependencies (Kubernetes client, Docker SDK, FastAPI, cryptography, SQLAlchemy, Prometheus, WireGuard), testing framework (pytest, coverage, K8s mocks), core data models, and enums
 **Depends on:** Phase 4
-**Plans:** 0 plans
+**Plans:** 6 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 5 to break down)
+- [ ] 05-01-PLAN.md — Dependencies & Testing Infrastructure (kubernetes, docker, fastapi, sqlalchemy, prometheus-client, wgconfig, pytest-docker, mockernetes)
+- [ ] 05-02-PLAN.md — Core Data Models & Enums (SessionState, EventType, Session, PodSpec, ContainerConfig types)
+- [ ] 05-03-PLAN.md — Config & Secrets modules (Pydantic config validation, AES-256-GCM encryption)
+- [ ] 05-04-PLAN.md — Audit & Provenance modules (SHA-256 hash chain, data lineage tracking)
+- [ ] 05-05-PLAN.md — Anomaly & Network modules (statistical monitoring, WireGuard config)
+- [ ] 05-06-PLAN.md — Resources & Orchestrator modules (cgroup v2 limits, session lifecycle)
 
 ### Phase 6: Dataset Management
 
