@@ -9,6 +9,8 @@ description = "Orchestrator service — session lifecycle, provider routing, and
 requires-python = ">=3.12"
 dependencies = [
     "centinela-core",
+    "reportlab>=4.5.1",
+    "cryptography>=41.0.0",
 ]
 
 [tool.hatch.build.targets.wheel]
