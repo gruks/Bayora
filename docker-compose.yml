@@ -3,35 +3,83 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.red-agent
-    ports: []
-    networks: []
+    networks:
+      - red-net
+      - orchestrator-red
+    security_opt:
+      - seccomp:/configs/seccomp/red-agent.json
+    mem_limit: 512m
 
   orchestrator:
     build:
       context: .
       dockerfile: Dockerfile.orchestrator
-    ports: ["8080:8080"]
-    networks: []
+    ports:
+      - "8080:8080"
+    networks:
+      - orchestrator-red
+      - orchestrator-blue
+      - sandbox-net
+      - audit-net
+    security_opt:
+      - seccomp:/configs/seccomp/orchestrator.json
+    mem_limit: 1g
 
   blue-agent:
     build:
       context: .
       dockerfile: Dockerfile.blue-agent
-    ports: []
-    networks: []
+    networks:
+      - orchestrator-blue
+    security_opt:
+      - seccomp:/configs/seccomp/blue-agent.json
+    mem_limit: 512m
 
   llm-sandbox:
     build:
       context: .
       dockerfile: Dockerfile.llm-sandbox
-    ports: []
-    networks: []
+    runtime: runsc
+    networks:
+      - sandbox-net
+    security_opt:
+      - seccomp:/configs/seccomp/llm-sandbox.json
+    dns:
+      - 8.8.8.8
+    dns_search:
+      - local
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+        reservations:
+          cpus: '1'
+          memory: 2G
 
   audit:
     build:
       context: .
       dockerfile: Dockerfile.audit
-    ports: []
-    networks: []
+    networks:
+      - audit-net
+    security_opt:
+      - seccomp:/configs/seccomp/audit.json
+    volumes:
+      - audit-data:/data
+    mem_limit: 256m
 
-networks: {}
+networks:
+  red-net:
+    driver: bridge
+  orchestrator-red:
+    driver: bridge
+  orchestrator-blue:
+    driver: bridge
+  sandbox-net:
+    driver: bridge
+  audit-net:
+    driver: bridge
+
+volumes:
+  audit-data:

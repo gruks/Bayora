@@ -1,3 +1,5 @@
+"""Base models for CENTINELA — session config and audit entries."""
+
 from datetime import datetime
 
 from pydantic import BaseModel

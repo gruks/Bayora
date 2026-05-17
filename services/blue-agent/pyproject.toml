@@ -9,7 +9,18 @@ description = "Blue agent service — safety evaluation and response classificat
 requires-python = ">=3.12"
 dependencies = [
     "centinela-core",
+    "datasets>=3.0",
+    "transformers>=4.51",
+    "torch>=2.4",
+    "scikit-learn>=1.5",
+    "structlog>=24",
+    "llm-guard>=0.3.16,<0.4.0",
+    "numpy>=2.0",
 ]
+
+[project.scripts]
+train-hh-rlhf = "scripts.train_hh_rlhf:main"
+train-toxigen = "scripts.train_toxigen:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/blue_agent"]
