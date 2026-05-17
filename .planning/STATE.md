@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-05-15)
 ## Current Position
 
 Phase: 5 of 25 — project-setup-and-core-infrastructure
-Plan: 1/6 complete
-Status: Phase 5 Plan 01 complete — Core platform dependencies installed
-Last activity: 2026-05-17 — Phase 5 Plan 01 complete (3 tasks, 3 files)
+Plan: 2/6 complete
+Status: Phase 5 Plan 02 complete — Core data models and enums
+Last activity: 2026-05-17 — Phase 5 Plan 02 complete (3 tasks, 3 files)
 
-Progress: [████████░░] 20% (Phase 1 complete, Phase 2 complete, Phase 3 complete, Phase 4 complete, Phase 5 started)
+Progress: [██████████] 24% (Phase 1 complete, Phase 2 complete, Phase 3 complete, Phase 4 complete, Phase 5 Plan 02 complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: ~30 min/plan
-- Total execution time: ~3 hours
+- Total plans completed: 7
+- Average duration: ~28 min/plan
+- Total execution time: ~3.2 hours
 
 **By Phase:**
 
@@ -31,10 +31,11 @@ Progress: [████████░░] 20% (Phase 1 complete, Phase 2 comple
 | 2     | 3/3   | 3     | ~23 min   |
 | 3     | 4/4   | 4     | ~29 min   |
 | 4     | 4/4   | 4     | ~3 min    |
+| 5     | 2/6   | 2     | ~12 min   |
 
 **Recent Trend:**
-- Last 3 plans: Phase 5 Plan 01, Phase 4 Plan 04, Phase 4 Plan 03
-- Trend: Phase 5 started — Core platform dependencies installed
+- Last 3 plans: Phase 5 Plan 02, Phase 5 Plan 01, Phase 4 Plan 04
+- Trend: Phase 5 ongoing — Core data models and enums
 
 *Updated after each plan completion*
 
@@ -66,6 +67,8 @@ Recent decisions affecting current work:
 - **Phase 4 (Windows fallback)**: gVisor requires Linux — documented Docker Desktop WSL2 or runc fallback for Windows
 - **Phase 5 (uv workspace)**: Used uv workspace membership to link centinela-core package — enables sharing prometheus-client and structlog across all services
 - **Phase 5 (pytest-asyncio)**: Configured pytest-asyncio with auto mode for async test discovery — simplifies async test writing
+- **Phase 5 (StrEnum)**: Used StrEnum for platform enums to ensure JSON serialization compatibility — avoids integer enum issues in JSON APIs
+- **Phase 5 (frozen models)**: Applied frozen=True to all pydantic type models for immutability in security-sensitive context
 
 ### Roadmap Evolution
 
@@ -80,6 +83,7 @@ Recent decisions affecting current work:
 - Phase 4 Plan 03 complete: Audit chain with Merkle tree — SHA-256 hash chain, O(log n) verification, AuditClient for orchestrator
 - Phase 4 Plan 04 complete: Signed PDF safety certificates — CertificateGenerator with Ed25519, verify_cert.py CLI, 4 tests
 - Phase 5 Plan 01 complete: Core platform dependencies — kubernetes, docker, fastapi, sqlalchemy, prometheus-client, structlog, pytest fixtures
+- Phase 5 Plan 02 complete: Core data models and enums — 6 StrEnums (SessionState, EventType, etc.), 7 frozen pydantic models (Session, PodSpec, etc.)
 - Phase 5 added: Project Setup and Core Infrastructure (from Bayora)
 - Phase 6 added: Dataset Management (from Bayora)
 - Phase 7 added: Configuration Parser and Validator (from Bayora)
@@ -114,5 +118,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-05-17
-Stopped at: Phase 5 Plan 01 complete — Core platform dependencies (3 tasks, 3 files)
+Stopped at: Phase 5 Plan 02 complete — Core data models and enums (3 tasks, 3 files)
 Resume file: None
