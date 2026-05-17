@@ -10,18 +10,18 @@ See: .planning/PROJECT.md (updated 2026-05-15)
 ## Current Position
 
 Phase: 5 of 25 — project-setup-and-core-infrastructure
-Plan: 2/6 complete
-Status: Phase 5 Plan 02 complete — Core data models and enums
-Last activity: 2026-05-17 — Phase 5 Plan 02 complete (3 tasks, 3 files)
+Plan: 3/6 complete
+Status: Phase 5 Plan 03 complete — Config and secrets management
+Last activity: 2026-05-17 — Phase 5 Plan 03 complete (4 tasks, 6 files)
 
-Progress: [██████████] 24% (Phase 1 complete, Phase 2 complete, Phase 3 complete, Phase 4 complete, Phase 5 Plan 02 complete)
+Progress: [██████████] 28% (Phase 1 complete, Phase 2 complete, Phase 3 complete, Phase 4 complete, Phase 5 Plan 03 complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
-- Average duration: ~28 min/plan
-- Total execution time: ~3.2 hours
+- Total plans completed: 8
+- Average duration: ~26 min/plan
+- Total execution time: ~3.4 hours
 
 **By Phase:**
 
@@ -31,11 +31,11 @@ Progress: [██████████] 24% (Phase 1 complete, Phase 2 comple
 | 2     | 3/3   | 3     | ~23 min   |
 | 3     | 4/4   | 4     | ~29 min   |
 | 4     | 4/4   | 4     | ~3 min    |
-| 5     | 2/6   | 2     | ~12 min   |
+| 5     | 3/6   | 3     | ~10 min   |
 
 **Recent Trend:**
-- Last 3 plans: Phase 5 Plan 02, Phase 5 Plan 01, Phase 4 Plan 04
-- Trend: Phase 5 ongoing — Core data models and enums
+- Last 3 plans: Phase 5 Plan 03, Phase 5 Plan 02, Phase 5 Plan 01
+- Trend: Phase 5 ongoing — Config and secrets management
 
 *Updated after each plan completion*
 
@@ -69,6 +69,8 @@ Recent decisions affecting current work:
 - **Phase 5 (pytest-asyncio)**: Configured pytest-asyncio with auto mode for async test discovery — simplifies async test writing
 - **Phase 5 (StrEnum)**: Used StrEnum for platform enums to ensure JSON serialization compatibility — avoids integer enum issues in JSON APIs
 - **Phase 5 (frozen models)**: Applied frozen=True to all pydantic type models for immutability in security-sensitive context
+- **Phase 5 (config env vars)**: Env var substitution handled in ConfigLoader before validation, not in model validators - keeps models pure and testable
+- **Phase 5 (AES-256-GCM)**: Used 12-byte nonce for AES-GCM authenticated encryption, PBKDF2 with 600k iterations for key derivation
 
 ### Roadmap Evolution
 
@@ -84,6 +86,7 @@ Recent decisions affecting current work:
 - Phase 4 Plan 04 complete: Signed PDF safety certificates — CertificateGenerator with Ed25519, verify_cert.py CLI, 4 tests
 - Phase 5 Plan 01 complete: Core platform dependencies — kubernetes, docker, fastapi, sqlalchemy, prometheus-client, structlog, pytest fixtures
 - Phase 5 Plan 02 complete: Core data models and enums — 6 StrEnums (SessionState, EventType, etc.), 7 frozen pydantic models (Session, PodSpec, etc.)
+- Phase 5 Plan 03 complete: Config and secrets management — PlatformConfig with validation, ConfigLoader for YAML/JSON, SecretManager with AES-256-GCM, PBKDF2 key derivation
 - Phase 5 added: Project Setup and Core Infrastructure (from Bayora)
 - Phase 6 added: Dataset Management (from Bayora)
 - Phase 7 added: Configuration Parser and Validator (from Bayora)
@@ -118,5 +121,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-05-17
-Stopped at: Phase 5 Plan 02 complete — Core data models and enums (3 tasks, 3 files)
+Stopped at: Phase 5 Plan 03 complete — Config and secrets management (4 tasks, 6 files)
 Resume file: None
