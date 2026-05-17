@@ -9,12 +9,12 @@ See: .planning/PROJECT.md (updated 2026-05-15)
 
 ## Current Position
 
-Phase: 4 of 25 — container-integration-certificates
-Plan: 4/4 complete
-Status: Phase 4 complete — Signed PDF safety certificates with Ed25519
-Last activity: 2026-05-17 — Phase 4 Plan 04 complete (3 tasks, 4 files)
+Phase: 5 of 25 — project-setup-and-core-infrastructure
+Plan: 1/6 complete
+Status: Phase 5 Plan 01 complete — Core platform dependencies installed
+Last activity: 2026-05-17 — Phase 5 Plan 01 complete (3 tasks, 3 files)
 
-Progress: [████████░░] 16% (Phase 1 complete, Phase 2 complete, Phase 3 complete, Phase 4 complete)
+Progress: [████████░░] 20% (Phase 1 complete, Phase 2 complete, Phase 3 complete, Phase 4 complete, Phase 5 started)
 
 ## Performance Metrics
 
@@ -33,8 +33,8 @@ Progress: [████████░░] 16% (Phase 1 complete, Phase 2 comple
 | 4     | 4/4   | 4     | ~3 min    |
 
 **Recent Trend:**
-- Last 3 plans: Phase 4 Plan 02, Phase 4 Plan 03, Phase 4 Plan 04
-- Trend: Phase 4 complete — Docker Compose, gVisor, Audit chain, Certificates
+- Last 3 plans: Phase 5 Plan 01, Phase 4 Plan 04, Phase 4 Plan 03
+- Trend: Phase 5 started — Core platform dependencies installed
 
 *Updated after each plan completion*
 
@@ -64,6 +64,8 @@ Recent decisions affecting current work:
 - **Phase 4 (gVisor DNS)**: Used 8.8.8.8 DNS for gVisor compatibility (Docker's 127.0.0.11 not supported in kernel-intercept mode)
 - **Phase 4 (gVisor platform)**: Platform set to "systrap" for runsc.conf (provides kernel-intercept without VM overhead)
 - **Phase 4 (Windows fallback)**: gVisor requires Linux — documented Docker Desktop WSL2 or runc fallback for Windows
+- **Phase 5 (uv workspace)**: Used uv workspace membership to link centinela-core package — enables sharing prometheus-client and structlog across all services
+- **Phase 5 (pytest-asyncio)**: Configured pytest-asyncio with auto mode for async test discovery — simplifies async test writing
 
 ### Roadmap Evolution
 
@@ -77,6 +79,7 @@ Recent decisions affecting current work:
 - Phase 4 Plan 02 complete: gVisor runtime configuration for llm-sandbox — runtime: runsc, dns: 8.8.8.8, Windows fallback documented
 - Phase 4 Plan 03 complete: Audit chain with Merkle tree — SHA-256 hash chain, O(log n) verification, AuditClient for orchestrator
 - Phase 4 Plan 04 complete: Signed PDF safety certificates — CertificateGenerator with Ed25519, verify_cert.py CLI, 4 tests
+- Phase 5 Plan 01 complete: Core platform dependencies — kubernetes, docker, fastapi, sqlalchemy, prometheus-client, structlog, pytest fixtures
 - Phase 5 added: Project Setup and Core Infrastructure (from Bayora)
 - Phase 6 added: Dataset Management (from Bayora)
 - Phase 7 added: Configuration Parser and Validator (from Bayora)
@@ -111,5 +114,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-05-17
-Stopped at: Phase 4 complete — Signed PDF safety certificates (3 tasks, 4 files)
+Stopped at: Phase 5 Plan 01 complete — Core platform dependencies (3 tasks, 3 files)
 Resume file: None
