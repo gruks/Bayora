@@ -12,6 +12,8 @@ dependencies = [
     "litellm>=1.84.0",
     "prometheus-client>=0.25",
     "structlog>=24.4",
+    "pyyaml>=6.0",
+    "cryptography>=44.0",
 ]
 
 [tool.hatch.build.targets.wheel]
