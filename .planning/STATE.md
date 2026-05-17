@@ -11,10 +11,10 @@ See: .planning/PROJECT.md (updated 2026-05-15)
 
 Phase: 4 of 25 — container-integration-certificates
 Plan: 4/4 complete
-Status: Plan 03 complete — Audit chain with Merkle tree implementation
-Last activity: 2026-05-17 — Phase 4 Plan 03 complete (3 tasks, 4 files)
+Status: Phase 4 complete — Signed PDF safety certificates with Ed25519
+Last activity: 2026-05-17 — Phase 4 Plan 04 complete (3 tasks, 4 files)
 
-Progress: [██████░░░░] 12% (Phase 1 complete, Phase 2 complete, Phase 3 complete, Phase 4 in progress)
+Progress: [████████░░] 16% (Phase 1 complete, Phase 2 complete, Phase 3 complete, Phase 4 complete)
 
 ## Performance Metrics
 
@@ -30,11 +30,11 @@ Progress: [██████░░░░] 12% (Phase 1 complete, Phase 2 comple
 | 1     | 2/2   | 2     | ~37 min   |
 | 2     | 3/3   | 3     | ~23 min   |
 | 3     | 4/4   | 4     | ~29 min   |
-| 4     | 3/4   | 4     | ~2 min    |
+| 4     | 4/4   | 4     | ~3 min    |
 
 **Recent Trend:**
-- Last 3 plans: Phase 3 Plan 04, Phase 4 Plan 01, Phase 4 Plan 02
-- Trend: Phase 4 container integration in progress — gVisor runtime configured
+- Last 3 plans: Phase 4 Plan 02, Phase 4 Plan 03, Phase 4 Plan 04
+- Trend: Phase 4 complete — Docker Compose, gVisor, Audit chain, Certificates
 
 *Updated after each plan completion*
 
@@ -76,6 +76,7 @@ Recent decisions affecting current work:
 - Phase 4 Plan 01 complete: Docker Compose five-container deployment with 5 bridge networks, seccomp profiles, cgroup v2 resource limits
 - Phase 4 Plan 02 complete: gVisor runtime configuration for llm-sandbox — runtime: runsc, dns: 8.8.8.8, Windows fallback documented
 - Phase 4 Plan 03 complete: Audit chain with Merkle tree — SHA-256 hash chain, O(log n) verification, AuditClient for orchestrator
+- Phase 4 Plan 04 complete: Signed PDF safety certificates — CertificateGenerator with Ed25519, verify_cert.py CLI, 4 tests
 - Phase 5 added: Project Setup and Core Infrastructure (from Bayora)
 - Phase 6 added: Dataset Management (from Bayora)
 - Phase 7 added: Configuration Parser and Validator (from Bayora)
@@ -110,5 +111,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-05-17
-Stopped at: Phase 4 Plan 03 execution complete — Audit chain with Merkle tree (3 tasks, 4 files)
+Stopped at: Phase 4 complete — Signed PDF safety certificates (3 tasks, 4 files)
 Resume file: None
