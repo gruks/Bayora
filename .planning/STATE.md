@@ -5,35 +5,36 @@
 See: .planning/PROJECT.md (updated 2026-05-15)
 
 **Core value:** Enable regulated companies to obtain independent, forensically defensible AI safety audits with signed certificates that satisfy compliance frameworks (HIPAA, SOX, GDPR, EU AI Act).
-**Current focus:** Phase 3 — Evaluation Engine
+**Current focus:** Phase 4 — Container Integration & Certificates
 
 ## Current Position
 
-Phase: 3 of 25 — evaluation-engine
-Plan: 4/4 complete
-Status: Plan 04 executed — multi-seed evaluation with BCa bootstrap CIs and classifier-derived metrics
-Last activity: 2026-05-17 — Phase 3 Plan 04 complete (2 tasks, 25 tests)
+Phase: 4 of 25 — container-integration-certificates
+Plan: 2/4 complete
+Status: Plan 02 executed — gVisor runtime configured for LLM sandbox with DNS fallback and Windows documentation
+Last activity: 2026-05-17 — Phase 4 Plan 02 complete (3 tasks, 3 files)
 
-Progress: [█████░░░░░] 5% (Phase 1 complete, Phase 2 complete, Phase 3 in progress)
+Progress: [██████░░░░] 12% (Phase 1 complete, Phase 2 complete, Phase 3 complete, Phase 4 in progress)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 5
-- Average duration: ~35 min/plan
+- Total plans completed: 6
+- Average duration: ~30 min/plan
 - Total execution time: ~3 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
+| -------|-------|-------|----------|
 | 1     | 2/2   | 2     | ~37 min   |
 | 2     | 3/3   | 3     | ~23 min   |
 | 3     | 4/4   | 4     | ~29 min   |
+| 4     | 2/4   | 4     | ~2 min    |
 
 **Recent Trend:**
-- Last 3 plans: Phase 3 Plan 02, Phase 3 Plan 03, Phase 3 Plan 04
-- Trend: Phase 3 evaluation engine execution complete
+- Last 3 plans: Phase 3 Plan 04, Phase 4 Plan 01, Phase 4 Plan 02
+- Trend: Phase 4 container integration in progress — gVisor runtime configured
 
 *Updated after each plan completion*
 
@@ -60,6 +61,9 @@ Recent decisions affecting current work:
 - **Phase 3 (Ensemble)**: Disagreement between classifiers yields conservative "harm" label with reduced confidence (min * 0.8)
 - **Phase 3 (Metric lazy loading)**: LLM-Guard scanners download models on import — implemented lazy loading via __getattr__ to avoid model downloads during tests
 - **Phase 3 (Metric scanner adaptation)**: Plan specified 34 llm-guard scanners but many don't exist — adapted to use 17 actual available output scanners
+- **Phase 4 (gVisor DNS)**: Used 8.8.8.8 DNS for gVisor compatibility (Docker's 127.0.0.11 not supported in kernel-intercept mode)
+- **Phase 4 (gVisor platform)**: Platform set to "systrap" for runsc.conf (provides kernel-intercept without VM overhead)
+- **Phase 4 (Windows fallback)**: gVisor requires Linux — documented Docker Desktop WSL2 or runc fallback for Windows
 
 ### Roadmap Evolution
 
@@ -69,6 +73,8 @@ Recent decisions affecting current work:
 - Phase 3 Plan 02 complete: ToxiGen classifier + ensemble classifier with agreement scoring
 - Phase 3 Plan 03 complete: Metric scoring infrastructure — MetricScorer ABC, 6 category files, MetricRegistry with 17 derived metrics
 - Phase 3 Plan 04 complete: Multi-seed evaluation engine with BCa bootstrap CIs, classifier-derived metrics, MetricRegistry integration
+- Phase 4 Plan 01 complete: Docker Compose five-container architecture with gVisor runtime, Merkle-chained audit, Ed25519 signing research
+- Phase 4 Plan 02 complete: gVisor runtime configuration for llm-sandbox — runtime: runsc, dns: 8.8.8.8, Windows fallback documented
 - Phase 5 added: Project Setup and Core Infrastructure (from Bayora)
 - Phase 6 added: Dataset Management (from Bayora)
 - Phase 7 added: Configuration Parser and Validator (from Bayora)
@@ -103,5 +109,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-05-17
-Stopped at: Phase 3 Plan 04 execution complete — multi-seed evaluation with BCa bootstrap CIs (2 tasks, 25 tests)
+Stopped at: Phase 4 Plan 02 execution complete — gVisor runtime configured with DNS fallback and Windows documentation (3 tasks, 3 files)
 Resume file: None
