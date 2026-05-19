@@ -1,142 +1,68 @@
-"""Audit chain implementation with SHA-256 hash chaining."""
+"""Audit chain module for tamper-evident logging."""
 
 import hashlib
 import json
-from datetime import datetime
-from uuid import UUID, uuid4
+from typing import Any
+from uuid import uuid4
 
 from centinela.enums import EventType
-
-
-class AuditEntry:
-    """A single entry in the audit chain."""
-
-    def __init__(
-        self,
-        entry_id: UUID,
-        timestamp: datetime,
-        event_type: EventType,
-        actor: str,
-        resource: str,
-        payload: dict,
-        prev_hash: str | None,
-    ):
-        self.entry_id = entry_id
-        self.timestamp = timestamp
-        self.event_type = event_type
-        self.actor = actor
-        self.resource = resource
-        self.payload = payload
-        self.prev_hash = prev_hash
-        self._hash: str | None = None
-
-    def compute_hash(self) -> str:
-        """Compute SHA-256 hash of this entry."""
-        payload_str = json.dumps(self.payload, sort_keys=True, default=str)
-        hash_input = (
-            str(self.entry_id)
-            + self.timestamp.isoformat()
-            + str(self.event_type.value)
-            + self.actor
-            + self.resource
-            + payload_str
-            + (self.prev_hash or "")
-        )
-        return hashlib.sha256(hash_input.encode()).hexdigest()
-
-    @property
-    def hash(self) -> str:
-        """Get the hash of this entry, computing if necessary."""
-        if self._hash is None:
-            self._hash = self.compute_hash()
-        return self._hash
-
-    def to_dict(self) -> dict:
-        """Convert to dictionary representation."""
-        return {
-            "entry_id": str(self.entry_id),
-            "timestamp": self.timestamp.isoformat(),
-            "event_type": self.event_type.value,
-            "actor": self.actor,
-            "resource": self.resource,
-            "payload": self.payload,
-            "prev_hash": self.prev_hash,
-            "hash": self.hash,
-        }
+from centinela.models.types import AuditRecord
 
 
 class AuditChain:
-    """Tamper-evident audit log with SHA-256 hash chaining."""
+    """Tamper-evident audit chain using SHA-256 hash chaining."""
 
-    def __init__(self):
-        self._entries: list[AuditEntry] = []
-        self._root_hash: str | None = None
+    def __init__(self) -> None:
+        """Initialize an empty audit chain."""
+        self._entries: list[AuditRecord] = []
 
     def append(
         self,
-        event_type: EventType,
-        actor: str,
-        resource: str,
-        payload: dict | None = None,
-    ) -> AuditEntry:
-        """Append a new entry to the audit chain."""
-        if payload is None:
-            payload = {}
+        event_type: EventType | str,
+        actor: str | None = None,
+        resource: str | None = None,
+        payload: dict[str, Any] | None = None,
+    ) -> AuditRecord:
+        """Append a new record to the audit chain."""
+        entry_id = str(uuid4())
+        payload_dict = payload or {}
+        prev_hash = self.get_root_hash() if self._entries else None
 
-        prev_hash = self._entries[-1].hash if self._entries else None
-
-        entry = AuditEntry(
-            entry_id=uuid4(),
-            timestamp=datetime.now(),
-            event_type=event_type,
+        record = AuditRecord(
+            entry_id=entry_id,
+            event_type=str(event_type),
             actor=actor,
             resource=resource,
-            payload=payload,
+            payload=payload_dict,
             prev_hash=prev_hash,
         )
-
-        self._entries.append(entry)
-
-        # Update root hash
-        self._root_hash = entry.hash
-
-        return entry
-
-    def verify(self) -> bool:
-        """Verify the integrity of the entire chain."""
-        if not self._entries:
-            return True
-
-        # Verify first entry has no prev_hash
-        if self._entries[0].prev_hash is not None:
-            return False
-
-        # Verify each entry's hash and prev_hash link
-        for i, entry in enumerate(self._entries):
-            computed_hash = entry.compute_hash()
-            if entry.hash != computed_hash:
-                return False
-
-            if i > 0:
-                if entry.prev_hash != self._entries[i - 1].hash:
-                    return False
-
-        return True
+        self._entries.append(record)
+        return record
 
     def get_root_hash(self) -> str:
         """Get the hash of the last entry in the chain."""
         if not self._entries:
             return ""
-        return self._entries[-1].hash
+        return self._compute_hash(self._entries[-1])
 
-    def __len__(self) -> int:
-        return len(self._entries)
+    def _compute_hash(self, record: AuditRecord) -> str:
+        """Compute the SHA-256 hash of an audit record."""
+        payload_str = json.dumps(record.payload, sort_keys=True)
+        data = (
+            f"{record.entry_id}{record.timestamp.isoformat()}"
+            f"{record.event_type}{record.actor or ''}{payload_str}"
+            f"{record.prev_hash or ''}"
+        )
+        return hashlib.sha256(data.encode("utf-8")).hexdigest()
 
-    def __iter__(self):
-        return iter(self._entries)
+    def verify(self) -> bool:
+        """Verify the cryptographic integrity of the audit chain."""
+        if not self._entries:
+            return True
 
-    def __getitem__(self, index: int) -> AuditEntry:
-        return self._entries[index]
-
-
-__all__ = ["AuditChain", "AuditEntry"]
+        expected_prev_hash = None
+        for record in self._entries:
+            if record.prev_hash != expected_prev_hash:
+                return False
+            expected_prev_hash = self._compute_hash(record)
+        return True

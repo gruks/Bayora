@@ -1,39 +1,32 @@
-"""Audit module for tamper-evident logging."""
+"""Audit logging module for centinela."""
 
 import asyncio
 from typing import Any
 
-from .chain import AuditChain, AuditEntry
+from centinela.enums import EventType
+from centinela.models.types import AuditRecord
+
+from .chain import AuditChain
 
 
 class AuditClient:
-    """Async wrapper for audit chain operations."""
+    """Asynchronous client for audit operations."""
 
-    def __init__(self, chain: AuditChain | None = None):
-        self._chain = chain or AuditChain()
-
-    @property
-    def chain(self) -> AuditChain:
-        """Get the underlying audit chain."""
-        return self._chain
+    def __init__(self) -> None:
+        """Initialize the audit client."""
+        self.chain = AuditChain()
 
     async def append(
         self,
-        event_type: Any,
-        actor: str,
-        resource: str,
-        payload: dict | None = None,
-    ) -> AuditEntry:
+        event_type: EventType | str,
+        actor: str | None = None,
+        resource: str | None = None,
+        payload: dict[str, Any] | None = None,
+    ) -> AuditRecord:
         """Asynchronously append an entry to the audit chain."""
-        return await asyncio.to_thread(self._chain.append, event_type, actor, resource, payload)
-
-    async def verify(self) -> bool:
-        """Asynchronously verify chain integrity."""
-        return await asyncio.to_thread(self._chain.verify)
-
-    async def get_root_hash(self) -> str:
-        """Asynchronously get the root hash."""
-        return await asyncio.to_thread(self._chain.get_root_hash)
+        return await asyncio.to_thread(
+            self.chain.append, event_type, actor, resource, payload
+        )
 
 
-__all__ = ["AuditChain", "AuditEntry", "AuditClient"]
+__all__ = ["AuditChain", "AuditClient", "AuditRecord"]

@@ -1,4 +1,4 @@
-"""Provenance module for data lineage tracking."""
+"""Provenance tracing module for centinela."""
 
 from .tracker import ProvenanceNode, ProvenanceTracker
 

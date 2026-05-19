@@ -1,11 +1,11 @@
-"""Provenance tracker for data lineage and artifact tracking."""
+"""Provenance tracker for data lineage."""
 
 from datetime import datetime
 from typing import Any
 
 
 class ProvenanceNode:
-    """Represents a single artifact in the provenance graph."""
+    """A node in the provenance graph representing an artifact."""
 
     def __init__(
         self,
@@ -13,33 +13,20 @@ class ProvenanceNode:
         artifact_type: str,
         metadata: dict[str, Any],
         parents: list[str],
-        created_at: datetime | None = None,
-    ):
+    ) -> None:
         self.artifact_id = artifact_id
         self.artifact_type = artifact_type
         self.metadata = metadata
         self.parents = parents
-        self.created_at = created_at or datetime.now()
-
-    def to_dict(self) -> dict[str, Any]:
-        """Convert to dictionary representation."""
-        return {
-            "artifact_id": self.artifact_id,
-            "artifact_type": self.artifact_type,
-            "metadata": self.metadata,
-            "parents": self.parents,
-            "created_at": self.created_at.isoformat(),
-        }
+        self.created_at = datetime.now()
 
 
 class ProvenanceTracker:
-    """Tracks artifact lineage using a directed acyclic graph (DAG)."""
+    """Tracker for maintaining data lineage and provenance graphs."""
 
-    def __init__(self):
-        # Adjacency list: artifact_id -> ProvenanceNode
+    def __init__(self) -> None:
+        """Initialize the provenance tracker."""
         self._graph: dict[str, ProvenanceNode] = {}
-        # Reverse adjacency for forward tracing: artifact_id -> list of children
-        self._reverse: dict[str, list[str]] = {}
 
     def add_artifact(
         self,
@@ -48,60 +35,31 @@ class ProvenanceTracker:
         metadata: dict[str, Any] | None = None,
         parents: list[str] | None = None,
     ) -> ProvenanceNode:
-        """Add a new artifact to the provenance graph."""
-        if metadata is None:
-            metadata = {}
-        if parents is None:
-            parents = []
-
-        # Validate parent references exist
-        for parent_id in parents:
-            if parent_id not in self._graph:
-                raise ValueError(f"Parent artifact '{parent_id}' does not exist")
-
-        node = ProvenanceNode(
-            artifact_id=artifact_id,
-            artifact_type=artifact_type,
-            metadata=metadata,
-            parents=parents,
-        )
-
+        """Add an artifact to the provenance graph."""
+        metadata_dict = metadata or {}
+        parents_list = parents or []
+        node = ProvenanceNode(artifact_id, artifact_type, metadata_dict, parents_list)
         self._graph[artifact_id] = node
-        self._reverse[artifact_id] = []
-
-        # Update reverse adjacency
-        for parent_id in parents:
-            self._reverse[parent_id].append(artifact_id)
-
         return node
 
-    def get_artifact(self, artifact_id: str) -> ProvenanceNode | None:
-        """Get an artifact by ID."""
-        return self._graph.get(artifact_id)
-
     def trace_backward(self, artifact_id: str) -> list[ProvenanceNode]:
-        """Trace lineage backward to origin following parent links."""
+        """Follow parent links to origin and return the full backward trace."""
         if artifact_id not in self._graph:
             return []
 
         result: list[ProvenanceNode] = []
         visited: set[str] = set()
-        queue = [artifact_id]
 
-        while queue:
-            current_id = queue.pop(0)
-            if current_id in visited:
-                continue
-            visited.add(current_id)
+        def dfs(curr_id: str) -> None:
+            if curr_id in visited or curr_id not in self._graph:
+                return
+            visited.add(curr_id)
+            node = self._graph[curr_id]
+            result.append(node)
+            for parent_id in node.parents:
+                dfs(parent_id)
 
-            node = self._graph.get(current_id)
-            if node:
-                result.append(node)
-                # Add parents to queue
-                for parent_id in node.parents:
-                    if parent_id not in visited:
-                        queue.append(parent_id)
-
+        dfs(artifact_id)
         return result
 
     def trace_forward(self, artifact_id: str) -> list[ProvenanceNode]:
@@ -111,74 +69,48 @@ class ProvenanceTracker:
 
         result: list[ProvenanceNode] = []
         visited: set[str] = set()
-        queue = [artifact_id]
 
-        while queue:
-            current_id = queue.pop(0)
-            if current_id in visited:
-                continue
-            visited.add(current_id)
+        # Build child index
+        children: dict[str, list[str]] = {node_id: [] for node_id in self._graph}
+        for node_id, node in self._graph.items():
+            for parent_id in node.parents:
+                if parent_id in children:
+                    children[parent_id].append(node_id)
 
-            # Get children from reverse adjacency
-            children = self._reverse.get(current_id, [])
-            for child_id in children:
-                if child_id not in visited:
-                    node = self._graph.get(child_id)
-                    if node:
-                        result.append(node)
-                        queue.append(child_id)
+        def dfs(curr_id: str) -> None:
+            if curr_id in visited:
+                return
+            visited.add(curr_id)
+            if curr_id in self._graph:
+                result.append(self._graph[curr_id])
+            for child_id in children.get(curr_id, []):
+                dfs(child_id)
 
+        dfs(artifact_id)
         return result
 
     def get_isolation_boundary_crossings(
-        self, artifact_id: str, boundary: str = "tenant"
+        self, artifact_id: str, boundary: str
     ) -> list[dict[str, Any]]:
-        """Detect when an artifact crosses isolation boundaries."""
-        if artifact_id not in self._graph:
-            return []
-
-        node = self._graph[artifact_id]
-        boundary_key = f"{boundary}_id"
+        """Detect when an artifact crosses a specified tenant/namespace boundary."""
         crossings: list[dict[str, Any]] = []
+        node = self._graph.get(artifact_id)
+        if not node:
+            return crossings
 
-        # Check current artifact's boundary
-        current_boundary = node.metadata.get(boundary_key)
+        target_boundary = node.metadata.get(boundary)
 
-        # Trace backward to check boundary changes
-        lineage = self.trace_backward(artifact_id)
-        for ancestor in lineage:
-            ancestor_boundary = ancestor.metadata.get(boundary_key)
-            if ancestor_boundary and ancestor_boundary != current_boundary:
+        for parent_id in node.parents:
+            parent = self._graph.get(parent_id)
+            if parent and parent.metadata.get(boundary) != target_boundary:
                 crossings.append(
                     {
-                        "artifact_id": ancestor.artifact_id,
-                        "from_boundary": ancestor_boundary,
-                        "to_boundary": current_boundary,
-                        "direction": "backward",
-                    }
-                )
-
-        # Trace forward to check boundary changes
-        derived = self.trace_forward(artifact_id)
-        for descendant in derived:
-            descendant_boundary = descendant.metadata.get(boundary_key)
-            if descendant_boundary and descendant_boundary != current_boundary:
-                crossings.append(
-                    {
-                        "artifact_id": descendant.artifact_id,
-                        "from_boundary": current_boundary,
-                        "to_boundary": descendant_boundary,
-                        "direction": "forward",
+                        "from_node": parent.artifact_id,
+                        "to_node": artifact_id,
+                        "from_boundary": parent.metadata.get(boundary),
+                        "to_boundary": target_boundary,
+                        "boundary_key": boundary,
                     }
                 )
 
         return crossings
-
-    def __len__(self) -> int:
-        return len(self._graph)
-
-    def __contains__(self, artifact_id: str) -> bool:
-        return artifact_id in self._graph
-
-
-__all__ = ["ProvenanceNode", "ProvenanceTracker"]
