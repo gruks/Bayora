@@ -62,6 +62,12 @@ class AuditChain:
     def verify_chain(self, session_id: str) -> bool:
         """Verify hash chain integrity for a session."""
         session_entries = [e for e in self._entries if e.session_id == session_id]
+        if not session_entries:
+            return True
+        # Verify first entry's hash
+        if session_entries[0].hash != self._compute_hash(session_entries[0]):
+            return False
+        # Verify subsequent entries
         for i in range(1, len(session_entries)):
             if session_entries[i].prev_hash != session_entries[i - 1].hash:
                 return False

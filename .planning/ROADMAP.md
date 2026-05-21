@@ -11,8 +11,8 @@ CENTINELA is an AI safety validation platform that delivers independent adversar
 - [x] **Phase 3: Evaluation Engine** - Blue-agent with safety classifiers, multi-seed evaluation, scoring metrics
 - [ ] **Phase 4: Container Integration + Certificates** - Five-container deployment, Merkle audit chain, signed PDF certificates
 - [ ] **Phase 5: Project Setup & Core Infrastructure** - Python package structure, core data models, testing framework
-- [ ] **Phase 6: Dataset Management** - Adversarial testing datasets for red/blue team operations
-- [ ] **Phase 7: Configuration Parser & Validator** - Declarative security policy management
+- [x] **Phase 6: Dataset Management** - Adversarial testing datasets for red/blue team operations
+- [x] **Phase 7: Configuration Parser & Validator** - Declarative security policy management
 - [ ] **Phase 8: Secrets Manager** - Cryptographic key and credential management
 - [ ] **Phase 9: Audit Log Service** - Tamper-evident cryptographic logging
 - [ ] **Phase 10: Provenance Tracker** - Forensic data lineage tracking
@@ -115,13 +115,13 @@ Plans:
 | 2. Universal Provider Adapter | 9 | ✓ Executed | 2026-05-16 |
 | 3. Evaluation Engine | 6 | ✓ Executed | 2026-05-17 |
 | 4. Container Integration + Certificates | 17 | Not started | - |
-| 5. Project Setup & Core Infrastructure | 0 | Not started | - |
-| 6. Dataset Management | 0 | Not started | - |
-| 7. Configuration Parser & Validator | 0 | Not started | - |
+| 5. Project Setup & Core Infrastructure | 4/6 | In Progress|  |
+| 6. Dataset Management | 4 | ✓ Executed | 2026-05-20 |
+| 7. Configuration Parser & Validator | 0 | ✓ Executed | 2026-05-20 |
 | 8. Secrets Manager | 0 | Not started | - |
 | 9. Audit Log Service | 7 | Planned (3 plans) | - |
-| 10. Provenance Tracker | 0 | Not started | - |
-| 11. Checkpoint - Core Services | 0 | Not started | - |
+| 10. Provenance Tracker | 0 | Planned (1 plan) | - |
+| 11. Checkpoint - Core Services | 0 | Planned (1 plan) | - |
 | 12. Anomaly Detector | 0 | Not started | - |
 | 13. Network Segmentation | 0 | Not started | - |
 | 13.1. Resource Governor | 0 | Not started | - |
@@ -181,13 +181,13 @@ Plans:
 
 **Goal:** Foundation for the entire platform — Python package structure with 8 core modules (orchestrator, config, secrets, audit, provenance, anomaly, network, resources), dependencies (Kubernetes client, Docker SDK, FastAPI, cryptography, SQLAlchemy, Prometheus, WireGuard), testing framework (pytest, coverage, K8s mocks), core data models, and enums
 **Depends on:** Phase 4
-**Plans:** 6 plans
+**Plans:** 4/6 plans executed
 
 Plans:
-- [ ] 05-01-PLAN.md — Dependencies & Testing Infrastructure (kubernetes, docker, fastapi, sqlalchemy, prometheus-client, wgconfig, pytest-docker, mockernetes)
-- [ ] 05-02-PLAN.md — Core Data Models & Enums (SessionState, EventType, Session, PodSpec, ContainerConfig types)
-- [ ] 05-03-PLAN.md — Config & Secrets modules (Pydantic config validation, AES-256-GCM encryption)
-- [ ] 05-04-PLAN.md — Audit & Provenance modules (SHA-256 hash chain, data lineage tracking)
+- [x] 05-01-PLAN.md — Dependencies & Testing Infrastructure (kubernetes, docker, fastapi, sqlalchemy, prometheus-client, wgconfig, pytest-docker, mockernetes)
+- [x] 05-02-PLAN.md — Core Data Models & Enums (SessionState, EventType, Session, PodSpec, ContainerConfig types)
+- [x] 05-03-PLAN.md — Config & Secrets modules (Pydantic config validation, AES-256-GCM encryption)
+- [x] 05-04-PLAN.md — Audit & Provenance modules (SHA-256 hash chain, data lineage tracking)
 - [ ] 05-05-PLAN.md — Anomaly & Network modules (statistical monitoring, WireGuard config)
 - [ ] 05-06-PLAN.md — Resources & Orchestrator modules (cgroup v2 limits, session lifecycle)
 
@@ -195,28 +195,34 @@ Plans:
 
 **Goal:** Adversarial testing datasets for red/blue team operations — downloads and prepares 5 datasets (AdvBench, JailbreakBench, Gandalf/Lakera, ToxiGen optional, Anthropic HH-RLHF optional) with unified DatasetManager CLI
 **Depends on:** Phase 5
-**Plans:** 0 plans
+**Plans:** 4 plans executed
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 6 to break down)
+- [x] 06-01-PLAN.md — Dataset types, interfaces, and core infrastructure
+- [x] 06-02-PLAN.md — AdvBench and JailbreakBench downloaders (red-team datasets)
+- [x] 06-03-PLAN.md — Gandalf/Lakera dataset integration (domain-specific attacks)
+- [x] 06-04-PLAN.md — DatasetManager CLI and unified dataset preparation
 
 ### Phase 7: Configuration Parser and Validator
 
 **Goal:** Declarative security policy management — YAML/JSON parser with schema validation, resource limit validation (CPU 0.1-32 cores, Memory 128MB-64GB), circular dependency detection, pretty printer, env var substitution
 **Depends on:** Phase 6
-**Plans:** 0 plans
+**Plans:** 1 plan
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 7 to break down)
+- [x] 07-01-PLAN.md — Create Policy models, Registry, PolicyParser, and CLI tool
 
 ### Phase 8: Secrets Manager
 
 **Goal:** Cryptographic key and credential management — AES-256-GCM encryption, PBKDF2 key derivation, ABAC policy DSL, mutual TLS, automatic 24-hour rotation, tmpfs secret injection, HashiCorp Vault or encrypted SQLite backend
 **Depends on:** Phase 7
-**Plans:** 0 plans
+**Plans:** 4 plans
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 8 to break down)
+- [ ] 08-01-PLAN.md — Encrypted SQLite Backend & HashiCorp Vault Integration
+- [ ] 08-02-PLAN.md — tmpfs Secret Injection Service
+- [ ] 08-03-PLAN.md — ABAC Policy DSL for Secret Access Control
+- [ ] 08-04-PLAN.md — Automatic Key Rotation & mTLS Setup
 
 ### Phase 9: Audit Log Service
 
@@ -233,46 +239,46 @@ Plans:
 
 **Goal:** Forensic data lineage tracking — graph-based storage (NetworkX or adjacency list), parent-child relationship tracking, backward tracing (origin of any artifact), forward tracing (all derived artifacts), isolation boundary crossing detection
 **Depends on:** Phase 9
-**Plans:** 0 plans
+**Plans:** 1 plan
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 10 to break down)
+- [ ] 10-01-PLAN.md — Exceptions, Pydantic models, iterative DFS tracing, full-subgraph boundary crossing, cycle detection, JSON serialization, unit tests, Hypothesis property tests
 
 ### Phase 11: Checkpoint - Core Services
 
 **Goal:** Validation checkpoint ensuring all core services (Setup, Datasets, Config, Secrets, Audit, Provenance) pass tests
 **Depends on:** Phase 10
-**Plans:** 0 plans
+**Plans:** 1 plan
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 11 to break down)
+- [ ] 11-01-PLAN.md — Full quality gate: uv sync, import smoke test, pytest, ruff, mypy across all Phases 5–10 modules
 
 ### Phase 12: Anomaly Detector
 
 **Goal:** Real-time security monitoring — syscall monitoring (seccomp/eBPF), network traffic monitoring (exfiltration detection), container escape detection, ML-based adversarial prompt detection, timing side-channel detection; alert thresholds >3σ deviation, >10 MB/min traffic, <1s escape termination
 **Depends on:** Phase 11
-**Plans:** 0 plans
+**Plans:** 1 plan
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 12 to break down)
+- [ ] 12-01-PLAN.md — AlertType enum, typed AnomalyAlert (Pydantic v2), network exfiltration detector (>10 MB/min), container escape detector (immediate critical), timing side-channel detector (>3σ), unit tests
 
 ### Phase 13: Network Segmentation
 
 **Goal:** WireGuard-based network isolation — tunnel setup with keypair generation per tenant, Kubernetes NetworkPolicy for inter-tenant traffic blocking, egress filtering with endpoint whitelisting, DNS tunneling prevention, network boundary crossing logging
 **Depends on:** Phase 12
-**Plans:** 0 plans
+**Plans:** 1 plan
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 13 to break down)
+- [ ] 13-01-PLAN.md — WireGuardTunnel model, create_tenant_tunnel, typed NetworkPolicy generation, DNS port-53 block, egress whitelist, boundary crossing log, unit tests
 
 ### Phase 13.1: Resource Governor
 
 **Goal:** cgroup v2 resource controls — CPU quota enforcement with pinning (prevent cache side-channels), memory limit enforcement with OOM killer isolation, I/O bandwidth limits, timing jitter (50-200ms random delay), Prometheus metrics per tenant
 **Depends on:** Phase 13
-**Plans:** 0 plans
+**Plans:** 1 plan
 
 Plans:
-- [ ] TBD (run /gsd:plan-phase 13.1 to break down)
+- [ ] 13.1-01-PLAN.md — Frozen ResourceQuotaSpec with cpu_pin, TenantResourceUsage, ResourceViolation models, apply_timing_jitter (50–200ms), record_usage (Prometheus), check_violations, generate_kubernetes_resources, unit tests
 
 ### Phase 14: Container Image Security
 

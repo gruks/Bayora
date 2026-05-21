@@ -7,6 +7,7 @@ from typing import Any
 import yaml  # type: ignore[import-untyped]
 
 from .models import PlatformConfig, ResourceLimits, SecurityConfig, substitute_env_vars_in_dict
+from .policy import CircularDependencyError, PolicyParser, PolicyRegistry, SecurityPolicy
 
 
 class ConfigLoader:
@@ -96,9 +97,13 @@ def load_config(path: str) -> PlatformConfig:
 
 
 __all__ = [
+    "CircularDependencyError",
     "ConfigLoader",
     "PlatformConfig",
+    "PolicyParser",
+    "PolicyRegistry",
     "ResourceLimits",
     "SecurityConfig",
+    "SecurityPolicy",
     "load_config",
 ]

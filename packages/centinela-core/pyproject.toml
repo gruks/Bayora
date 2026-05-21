@@ -14,7 +14,14 @@ dependencies = [
     "structlog>=24.4",
     "pyyaml>=6.0",
     "cryptography>=44.0",
+    "wgconfig>=1.2.0",
+    "requests>=2.32",
+    "tqdm>=4.66",
 ]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/centinela"]
+
+[project.scripts]
+centinela-datasets = "centinela.datasets.cli:main"
+centinela-policy = "centinela.config.cli:main"

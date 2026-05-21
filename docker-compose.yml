@@ -15,8 +15,8 @@ services:
   # Red Agent - Attack engine (ARCH-01: red-net isolation)
   red-agent:
     build:
-      context: ./services/red-agent
-      dockerfile: ../../Dockerfile.red-agent
+      context: .
+      dockerfile: Dockerfile.red-agent
     container_name: bayora-red-agent
     networks:
       - red-net
@@ -31,8 +31,8 @@ services:
   # Orchestrator - Central coordinator (ARCH-03: intermediary between isolated components)
   orchestrator:
     build:
-      context: ./services/orchestrator
-      dockerfile: ../../Dockerfile.orchestrator
+      context: .
+      dockerfile: Dockerfile.orchestrator
     container_name: bayora-orchestrator
     networks:
       - orchestrator-red
@@ -54,8 +54,8 @@ services:
   # Blue Agent - Defense evaluation (ARCH-02: blue-net isolation)
   blue-agent:
     build:
-      context: ./services/blue-agent
-      dockerfile: ../../Dockerfile.blue-agent
+      context: .
+      dockerfile: Dockerfile.blue-agent
     container_name: bayora-blue-agent
     networks:
       - orchestrator-blue
@@ -69,8 +69,8 @@ services:
   # LLM Sandbox - LLM execution with gVisor (ARCH-06, ARCH-07)
   llm-sandbox:
     build:
-      context: ./services/llm-sandbox
-      dockerfile: ../../Dockerfile.llm-sandbox
+      context: .
+      dockerfile: Dockerfile.llm-sandbox
     container_name: bayora-llm-sandbox
     # Note: runtime: runsc requires gVisor to be installed on host
     # For non-Linux environments, remove runtime line or use native runtime
@@ -98,8 +98,8 @@ services:
   # Audit - Logging service (ARCH-04: Merkle-chained audit)
   audit:
     build:
-      context: ./services/audit
-      dockerfile: ../../Dockerfile.audit
+      context: .
+      dockerfile: Dockerfile.audit
     container_name: bayora-audit
     networks:
       - audit-net
