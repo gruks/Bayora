@@ -10,7 +10,18 @@ requires-python = ">=3.12"
 dependencies = [
     "pydantic>=2.0",
     "litellm>=1.84.0",
+    "prometheus-client>=0.25",
+    "structlog>=24.4",
+    "pyyaml>=6.0",
+    "cryptography>=44.0",
+    "wgconfig>=1.2.0",
+    "requests>=2.32",
+    "tqdm>=4.66",
 ]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/centinela"]
+
+[project.scripts]
+centinela-datasets = "centinela.datasets.cli:main"
+centinela-policy = "centinela.config.cli:main"

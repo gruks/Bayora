@@ -1,7 +1,12 @@
 from __future__ import annotations
 
+from collections.abc import Callable
+from typing import TYPE_CHECKING, ClassVar, TypeVar
+
 import litellm
-from typing import Callable, TypeVar
+
+if TYPE_CHECKING:
+    from collections.abc import Callable
 
 # ── Global LiteLLM Configuration ──────────────────────────────
 litellm.num_retries = 3
@@ -17,7 +22,7 @@ class ProviderFactory:
     adapters import factory (for @register), factory imports base (for type hints).
     """
 
-    _registry: dict[str, type] = {}
+    _registry: ClassVar[dict[str, type]] = {}
 
     @classmethod
     def register(cls, provider: str) -> Callable[[type[T]], type[T]]:

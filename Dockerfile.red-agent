@@ -5,6 +5,12 @@ WORKDIR /app
 RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=uv.lock,target=uv.lock \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    --mount=type=bind,source=packages/centinela-core/pyproject.toml,target=packages/centinela-core/pyproject.toml \
+    --mount=type=bind,source=services/audit/pyproject.toml,target=services/audit/pyproject.toml \
+    --mount=type=bind,source=services/blue-agent/pyproject.toml,target=services/blue-agent/pyproject.toml \
+    --mount=type=bind,source=services/llm-sandbox/pyproject.toml,target=services/llm-sandbox/pyproject.toml \
+    --mount=type=bind,source=services/orchestrator/pyproject.toml,target=services/orchestrator/pyproject.toml \
+    --mount=type=bind,source=services/red-agent/pyproject.toml,target=services/red-agent/pyproject.toml \
     uv sync --locked --no-dev --no-editable --no-install-project
 COPY . .
 RUN --mount=type=cache,target=/root/.cache/uv \

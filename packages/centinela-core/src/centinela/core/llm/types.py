@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from typing import AsyncIterator
+from dataclasses import dataclass
 
 from pydantic import BaseModel
-
 
 # ── Normalized Response Types ──────────────────────────────────────
 # These are what every adapter returns, regardless of provider.

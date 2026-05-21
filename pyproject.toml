@@ -12,6 +12,14 @@ dependencies = [
     "pydantic>=2.0",
     "python-dotenv>=1.0",
     "cryptography>=43.0",
+    "kubernetes>=35.0",
+    "docker>=7.1",
+    "aiodocker>=0.26",
+    "fastapi>=0.115",
+    "sqlalchemy[asyncio]>=2.0",
+    "prometheus-client>=0.25",
+    "wgconfig>=1.2",
+    "structlog>=24.4",
 ]
 
 [project.optional-dependencies]
@@ -22,6 +30,11 @@ dev = [
     "ruff>=0.15",
     "mypy>=2.0",
     "pre-commit>=4.0",
+    "pytest-docker>=3.2",
+    "pytest-asyncio>=0.24",
+    "mockernetes>=0.2",
+    "kmock>=0.7",
+    "requests>=2.32",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -59,6 +72,10 @@ ignore_missing_imports = true
 
 [[tool.mypy.overrides]]
 module = ["transformers.*", "datasets.*", "torch.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["scipy.*", "structlog.*", "llm_guard.*"]
 ignore_missing_imports = true
 
 [tool.pytest.ini_options]

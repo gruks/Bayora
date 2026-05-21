@@ -1,12 +1,15 @@
 from __future__ import annotations
 
-from typing import AsyncIterator
+from typing import TYPE_CHECKING
 
 import litellm
 
 from .base import UniversalProviderAdapter
 from .factory import ProviderFactory
 from .types import NormalizedChunk, NormalizedResponse, ProviderConfig, TokenUsage
+
+if TYPE_CHECKING:
+    from collections.abc import AsyncIterator
 
 
 @ProviderFactory.register("ollama")

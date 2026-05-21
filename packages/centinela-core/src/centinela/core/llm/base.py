@@ -1,9 +1,12 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import AsyncIterator
+from typing import TYPE_CHECKING
 
-from .types import NormalizedChunk, NormalizedResponse
+if TYPE_CHECKING:
+    from collections.abc import AsyncIterator
+
+    from .types import NormalizedChunk, NormalizedResponse
 
 
 class UniversalProviderAdapter(ABC):

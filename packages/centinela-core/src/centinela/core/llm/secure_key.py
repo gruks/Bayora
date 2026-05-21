@@ -77,8 +77,12 @@ class SecureKeyStore:
 
     def __del__(self) -> None:
         """Safety net: clear if context manager wasn't used."""
-        if not self._released:
-            self.clear()
+        try:
+            if not self._released:
+                self.clear()
+        except AttributeError:
+            # Object was not fully initialized (__init__ failed)
+            pass
 
     def __repr__(self) -> str:
         status = "active" if self.is_active else "zeroed"
