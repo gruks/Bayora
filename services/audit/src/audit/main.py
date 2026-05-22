@@ -1,5 +1,10 @@
+"""Audit service entry point."""
+
+from __future__ import annotations
+
+
 def main() -> None:
-    print("Hello from centinela-audit!")
+    print("CENTINELA Audit Service")
 
 
 if __name__ == "__main__":

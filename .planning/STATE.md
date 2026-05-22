@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v3.1
 milestone_name: milestone
 status: completed
-stopped_at: Phase 7 complete — Configuration Parser and Validator (1 plan, 5 files)
-last_updated: "2026-05-20T15:40:00.000Z"
-last_activity: 2026-05-20 — Phase 7 complete (1 plan, 5 files)
+stopped_at: Phase 9 complete — Audit Log Service (3 plans, 12 files)
+last_updated: "2026-05-22T00:00:00.000Z"
+last_activity: 2026-05-22 — Phase 9 complete (3 plans, 12 files)
 progress:
   total_phases: 26
-  completed_phases: 5
-  total_plans: 27
-  completed_plans: 21
-  percent: 19
+  completed_phases: 7
+  total_plans: 34
+  completed_plans: 28
+  percent: 27
 ---
 
 # Project State
@@ -25,10 +25,10 @@ See: .planning/PROJECT.md (updated 2026-05-15)
 
 ## Current Position
 
-Phase: 7 of 25 — configuration-parser-and-validator
-Plan: 1/1 complete
-Status: Phase 7 complete — Configuration Parser and Validator
-Last activity: 2026-05-20 — Phase 7 complete (1 plan, 5 files)
+Phase: 9 of 25 — audit-log-service
+Plan: 3/3 complete
+Status: Phase 9 complete — Audit Log Service
+Last activity: 2026-05-22 — Phase 9 complete (3 plans, 12 files)
 
 Progress: [████████░░] 78%
 
@@ -94,8 +94,10 @@ Recent decisions affecting current work:
 - **Phase 6 (datasets)**: All datasets use unified DatasetEntry schema with frozen pydantic models for immutability
 - **Phase 6 (caching)**: SHA-256 integrity verification for cached datasets — re-downloads if hash mismatch
 - **Phase 6 (CLI)**: centinela-datasets CLI provides unified interface for all dataset operations
-- **Phase 7 (PolicyRegistry)**: Built robust multi-level inheritance resolution and CircularDependencyError detection via cycle-finding graphs (`extends` and `dependencies`).
-- **Phase 7 (CLI)**: Implemented `centinela-policy` CLI for config validation, resolution, and visualization.
+- **Phase 8 (KeyRotator)**: Two-store rotation design — old_store decrypts with old key, new_store re-encrypts with new key (same SQLite DB path, different SecretManager). Avoids needing to expose internal manager references.
+- **Phase 8 (VaultSecretStore)**: TYPE_CHECKING guard for hvac import — avoids runtime dependency when Vault is not configured.
+- **Phase 8 (ABAC)**: First-match-wins rule evaluation with default deny (fail-closed). `SecureSecretStore` proxy gates all 4 operations including `list_secrets` (uses `"*"` as resource name).
+- **Phase 8 (mTLS)**: ECDSA P-256 keys for all certs. Server cert always includes CN as DNS SAN. `datetime.UTC` used for timezone-aware timestamps.
 
 ### Roadmap Evolution
 
@@ -113,7 +115,7 @@ Recent decisions affecting current work:
 - Phase 5 Plan 02 complete: Core data models and enums — 6 StrEnums (SessionState, EventType, etc.), 7 frozen pydantic models (Session, PodSpec, etc.)
 - Phase 5 Plan 03 complete: Config and secrets management — PlatformConfig with validation, ConfigLoader for YAML/JSON, SecretManager with AES-256-GCM, PBKDF2 key derivation
 - Phase 6 complete: Dataset Management — DatasetEntry/DatasetCategory types, Dataset ABC, DatasetLoader with caching, 3 dataset downloaders (AdvBench, JailbreakBench, Gandalf), centinela-datasets CLI
-- Phase 7 complete: Configuration Parser and Validator — PolicyRegistry, CircularDependencyError, PolicyParser, centinela-policy CLI
+- Phase 9 complete: Audit Log Service — AuditEntry extended model (8 fields), SHA-256 MerkleChain, SQLiteStorage + PostgreSQLStorage (append-only), AsyncAuditWriter (fire-and-forget queue), AuditVerifier (10K entries <1s), verify_audit.py CLI, FastAPI read-only query API with RBAC (admin/auditor/orchestrator roles)
 - Phase 5 added: Project Setup and Core Infrastructure (from Bayora)
 - Phase 6 added: Dataset Management (from Bayora)
 - Phase 7 added: Configuration Parser and Validator (from Bayora)

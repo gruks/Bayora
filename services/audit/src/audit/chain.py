@@ -1,98 +1,116 @@
-"""Audit chain module with hash chain and Merkle tree for tamper-evident logging."""
+"""SHA-256 Merkle hash chain for tamper-evident audit logging."""
 
 from __future__ import annotations
 
 import hashlib
 import json
-import uuid
-from dataclasses import dataclass
-from datetime import datetime
-from typing import Any
+
+# The "genesis" hash — used as prev_hash for the very first entry.
+# Fixed constant so the chain always starts from the same point.
+GENESIS_HASH = "0" * 64  # SHA-256 produces 64 hex characters
 
 
-@dataclass
-class AuditEntry:
-    """Single audit log entry with hash chain linkage."""
+def compute_entry_hash(
+    timestamp: str,
+    actor: str,
+    event_type: str,
+    payload_hash: str,
+    prev_hash: str,
+    correlation_id: str,
+) -> str:
+    """Compute SHA-256 hash of an audit entry.
 
-    entry_id: str
-    timestamp: str
-    session_id: str
-    event_type: str
-    data: dict[str, Any]
-    prev_hash: str
-    hash: str
+    The hash covers ALL fields in a deterministic JSON serialization.
+    Any single-byte modification to any field breaks the chain.
+
+    Returns:
+        64-character hex string (SHA-256 digest).
+    """
+    data = json.dumps(
+        {
+            "timestamp": timestamp,
+            "actor": actor,
+            "event_type": event_type,
+            "payload_hash": payload_hash,
+            "prev_hash": prev_hash,
+            "correlation_id": correlation_id,
+        },
+        sort_keys=True,
+        separators=(",", ":"),
+    ).encode("utf-8")
+
+    return hashlib.sha256(data).hexdigest()
 
 
-class AuditChain:
-    """Hash chain with Merkle tree for audit log."""
+class MerkleChain:
+    """Manages a Merkle-chained audit log.
 
-    def __init__(self, db_path: str = "/data/audit.db"):
-        self.db_path = db_path
-        self._entries: list[AuditEntry] = []
+    Tracks the current chain head (hash of the most recent entry) and
+    computes new entry hashes that link to the chain.
+    """
 
-    def log_event(self, session_id: str, event_type: str, data: dict[str, Any]) -> AuditEntry:
-        """Log an event to the audit chain."""
-        # Compute previous hash
-        prev_hash = self._entries[-1].hash if self._entries else "0" * 64
+    def __init__(self, head: str = GENESIS_HASH) -> None:
+        self._head = head
 
-        # Create entry
-        entry = AuditEntry(
-            entry_id=self._generate_id(),
-            timestamp=datetime.utcnow().isoformat(),
-            session_id=session_id,
+    @property
+    def head(self) -> str:
+        """Hash of the most recent entry in the chain."""
+        return self._head
+
+    def append(
+        self,
+        timestamp: str,
+        actor: str,
+        event_type: str,
+        payload_hash: str,
+        correlation_id: str,
+    ) -> str:
+        """Compute the hash for a new entry and update the chain head.
+
+        Returns:
+            The new entry's hash (which becomes the next entry's prev_hash).
+        """
+        entry_hash = compute_entry_hash(
+            timestamp=timestamp,
+            actor=actor,
             event_type=event_type,
-            data=data,
-            prev_hash=prev_hash,
-            hash="",
+            payload_hash=payload_hash,
+            prev_hash=self._head,
+            correlation_id=correlation_id,
         )
+        self._head = entry_hash
+        return entry_hash
 
-        # Compute hash (includes prev_hash for chain integrity)
-        entry.hash = self._compute_hash(entry)
-        self._entries.append(entry)
-        return entry
+    def verify_chain(self, entries: list[dict]) -> tuple[bool, int | None]:  # type: ignore[type-arg]
+        """Verify the integrity of a chain of entries.
 
-    def _compute_hash(self, entry: AuditEntry) -> str:
-        """Compute SHA-256 hash of entry."""
-        content = f"{entry.entry_id}{entry.timestamp}{entry.session_id}{entry.event_type}{json.dumps(entry.data, sort_keys=True)}{entry.prev_hash}"
-        return hashlib.sha256(content.encode()).hexdigest()
+        Recomputes every hash and confirms chain integrity.
+        Detects any single-byte modification in any entry.
 
-    def _generate_id(self) -> str:
-        return uuid.uuid4().hex
+        Args:
+            entries: List of entry dicts with keys matching AuditEntry fields.
 
-    def verify_chain(self, session_id: str) -> bool:
-        """Verify hash chain integrity for a session."""
-        session_entries = [e for e in self._entries if e.session_id == session_id]
-        if not session_entries:
-            return True
-        # Verify first entry's hash
-        if session_entries[0].hash != self._compute_hash(session_entries[0]):
-            return False
-        # Verify subsequent entries
-        for i in range(1, len(session_entries)):
-            if session_entries[i].prev_hash != session_entries[i - 1].hash:
-                return False
-            if session_entries[i].hash != self._compute_hash(session_entries[i]):
-                return False
-        return True
+        Returns:
+            (True, None) if valid; (False, first_invalid_index) if tampered.
+        """
+        if not entries:
+            return True, None
 
-    def get_merkle_root(self, session_id: str) -> str:
-        """Get Merkle root hash for session (CERT-07)."""
-        session_entries = [e for e in self._entries if e.session_id == session_id]
-        if not session_entries:
-            return ""
+        current_hash = GENESIS_HASH
 
-        # Build Merkle tree
-        hashes = [e.hash for e in session_entries]
-        while len(hashes) > 1:
-            if len(hashes) % 2 == 1:
-                hashes.append(hashes[-1])
-            new_level = []
-            for i in range(0, len(hashes), 2):
-                combined = hashes[i] + hashes[i + 1]
-                new_level.append(hashlib.sha256(combined.encode()).hexdigest())
-            hashes = new_level
-        return hashes[0] if hashes else ""
+        for i, entry in enumerate(entries):
+            computed = compute_entry_hash(
+                timestamp=entry["timestamp"],
+                actor=entry["actor"],
+                event_type=entry["event_type"],
+                payload_hash=entry["payload_hash"],
+                prev_hash=current_hash,
+                correlation_id=entry["correlation_id"],
+            )
 
-    def get_entries(self, session_id: str) -> list[AuditEntry]:
-        """Get all entries for a session."""
-        return [e for e in self._entries if e.session_id == session_id]
+            if computed != entry["entry_hash"]:
+                return False, i
+
+            current_hash = entry["entry_hash"]
+
+        return True, None
