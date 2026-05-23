@@ -2,8 +2,8 @@ import { Link, useRouterState } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 
 const navItems = [
-  { to: "/", icon: "settings", label: "Configure" },
-  { to: "/live", icon: "security_update_good", label: "Live Audit" },
+  { to: "/config", icon: "settings", label: "Configure" },
+  { to: "/audit", icon: "security_update_good", label: "Live Audit" },
   { to: "/results", icon: "analytics", label: "Results" },
 ] as const;
 
@@ -18,7 +18,7 @@ export function Shell({ children, topBar, footer, sidebarFooter }: ShellProps) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
 
   return (
-    <div className="min-h-screen bg-[#0A0B0D] text-[#e2e2e9]">
+    <div className="min-h-screen bg-[#0A0B0D] text-[#F1F5F9]">
       {/* Sidebar */}
       <aside className="fixed left-0 top-0 h-full w-[240px] flex flex-col py-6 border-r border-[#424754] bg-[#111318] z-40">
         <div className="px-4 mb-8">
@@ -63,13 +63,22 @@ export function Shell({ children, topBar, footer, sidebarFooter }: ShellProps) {
               </span>
             </div>
           )}
-          <a
-            href="#"
-            className="flex items-center gap-4 px-4 py-2 text-[#c2c6d6] hover:text-[#e2e2e9] transition-colors"
+          <Link
+            to="/"
+            className="flex items-center gap-4 px-4 py-2 text-[#c2c6d6] hover:text-[#e2e2e9] transition-colors rounded"
           >
-            <span className="material-symbols-outlined text-[20px]">biotech</span>
-            <span className="text-sm">Demo Mode</span>
-          </a>
+            <span className="material-symbols-outlined text-[20px]">home</span>
+            <span className="text-sm">Home</span>
+          </Link>
+          <Link
+            to="/profile"
+            className="flex items-center gap-3 px-4 py-2 text-[#c2c6d6] hover:text-[#e2e2e9] transition-colors rounded"
+          >
+            <span className="w-7 h-7 rounded-full bg-[#3B82F6]/20 text-[#adc6ff] flex items-center justify-center text-xs font-bold">
+              SC
+            </span>
+            <span className="text-sm">Profile</span>
+          </Link>
         </div>
       </aside>
 
@@ -81,7 +90,7 @@ export function Shell({ children, topBar, footer, sidebarFooter }: ShellProps) {
           </div>
         )}
         <div className="flex items-center gap-4">
-          {["notifications", "help", "account_circle"].map((i) => (
+          {["notifications", "help"].map((i) => (
             <span
               key={i}
               className="material-symbols-outlined text-[#c2c6d6] cursor-pointer hover:bg-[#33353a] p-1 rounded transition-colors text-[20px]"
@@ -89,6 +98,12 @@ export function Shell({ children, topBar, footer, sidebarFooter }: ShellProps) {
               {i}
             </span>
           ))}
+          <Link
+            to="/profile"
+            className="material-symbols-outlined text-[#c2c6d6] cursor-pointer hover:bg-[#33353a] p-1 rounded transition-colors text-[20px]"
+          >
+            account_circle
+          </Link>
         </div>
       </header>
 

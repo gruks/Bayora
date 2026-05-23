@@ -23,10 +23,10 @@ const attacks: { vec: string; sev: Severity; result: string; ts: string }[] = [
 ];
 
 const sevStyles: Record<Severity, string> = {
-  CRITICAL: "bg-[#ffb4ab]/20 text-[#ffb4ab]",
-  HIGH: "bg-[#93000a]/40 text-[#ffdad6]",
-  MEDIUM: "bg-[#df7412]/30 text-[#ffb786]",
-  LOW: "bg-[#8c909f] text-[#e2e2e9]",
+  CRITICAL: "bg-[#EF4444]/20 text-[#EF4444]",
+  HIGH: "bg-[#F97316]/20 text-[#F97316]",
+  MEDIUM: "bg-[#EAB308]/20 text-[#EAB308]",
+  LOW: "bg-[#22C55E]/20 text-[#22C55E]",
 };
 
 function Results() {

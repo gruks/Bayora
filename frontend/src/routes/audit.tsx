@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Shell } from "@/components/Shell";
 
-export const Route = createFileRoute("/live")({
+export const Route = createFileRoute("/audit")({
   head: () => ({
     meta: [
       { title: "CENTINELA — Live Audit" },
@@ -13,9 +13,9 @@ export const Route = createFileRoute("/live")({
 
 type Sev = "CRITICAL" | "HIGH" | "PASS";
 const sevStyles: Record<Sev, string> = {
-  CRITICAL: "bg-[#ffb4ab]/10 text-[#ffb4ab] border-[#ffb4ab]/20",
-  HIGH: "bg-[#ffb786]/10 text-[#ffb786] border-[#ffb786]/20",
-  PASS: "bg-[#adc6ff]/10 text-[#adc6ff] border-[#adc6ff]/20",
+  CRITICAL: "bg-[#EF4444]/10 text-[#EF4444] border-[#EF4444]/20",
+  HIGH: "bg-[#F97316]/10 text-[#F97316] border-[#F97316]/20",
+  PASS: "bg-[#10B981]/10 text-[#10B981] border-[#10B981]/20",
 };
 
 const feed: { sev: Sev; category: string; payload: string; ts: string }[] = [

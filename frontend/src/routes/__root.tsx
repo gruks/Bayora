@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { Preloader } from "@/components/Preloader";
 
 function NotFoundComponent() {
   return (
@@ -123,7 +124,9 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <Preloader>
+        <Outlet />
+      </Preloader>
     </QueryClientProvider>
   );
 }
