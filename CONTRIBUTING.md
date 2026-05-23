@@ -35,7 +35,7 @@ cp .env.example .env
 ```bash
 # Lint and format
 uv run ruff check .
-uv run ruff format .
+uv run ruff format  .
 
 # Type check
 uv run mypy packages/ services/
